@@ -29,8 +29,8 @@ public class CallActivity extends AppCompatActivity {
         String callID = "privateCallRoom101";
         // Generate a random username
         Random random = new Random();
-        String userID = String.valueOf(random.nextInt(90000) + 10000);
-        String userName = "User " + userID;
+        String userID = String.valueOf(random.nextInt(100000));
+        String userName = "U" + userID;
 
         ZegoUIKitPrebuiltCallConfig config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
         /* New Code */
