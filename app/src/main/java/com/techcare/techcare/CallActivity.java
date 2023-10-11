@@ -10,6 +10,7 @@ import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallFragment;
 import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class CallActivity extends AppCompatActivity {
 
@@ -25,10 +26,11 @@ public class CallActivity extends AppCompatActivity {
         /* Important information */
         long appID = 434501726;
         String appSign = "ea3bef30fb6d3b29b11f2c6840e8923059bab0b8b6615e77b489ed320ddfb6f5";
-
-        String callID = "jamesbond1";
-        String userID = "jamesbond2";
-        String userName = "jamesbond2";
+        String callID = "privateCallRoom101";
+        // Generate a random username
+        Random random = new Random();
+        String userID = String.valueOf(random.nextInt(90000) + 10000);
+        String userName = "User " + userID;
 
         ZegoUIKitPrebuiltCallConfig config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
         /* New Code */
