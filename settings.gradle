@@ -15,5 +15,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TechCare"
+rootProject.name = "DigitalTechCare"
 include ':app'
