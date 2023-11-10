@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,10 +34,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private static ArrayList<GridCell> gridCells = new ArrayList<GridCell>();
     private void showYoutubeVideoInWebView(String url) {
-        setContentView(R.layout.activity_webview); //
+        setContentView(R.layout.activity_webview);
 
-        WebView webView = findViewById(R.id.webview); //
+        WebView webView = findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
