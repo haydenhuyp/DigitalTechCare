@@ -109,13 +109,13 @@
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/youtube_logo" />
+                    android:src="@drawable/ic_church" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Youtube"
+                    android:text="Mass"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -123,6 +123,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cell4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="1"

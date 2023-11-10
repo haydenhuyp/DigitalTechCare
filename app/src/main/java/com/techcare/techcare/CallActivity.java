@@ -9,7 +9,6 @@ import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
 import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallFragment;
 import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
 
-import java.io.Console;
 import java.util.Arrays;
 import java.util.Random;
 
