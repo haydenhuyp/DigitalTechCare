@@ -9,12 +9,14 @@ public class GridCell {
     private String title;
     private String icon;
     private String actionParameter;
+    private String action;
 
-    public GridCell(int _id, String title, String icon, String actionParameter) {
+    public GridCell(int _id, String title, String icon, String actionParameter, String action) {
         this._id = _id;
         this.title = title;
         this.icon = icon;
         this.actionParameter = actionParameter;
+        this.action = action;
     }
 
     public int get_id() {
@@ -49,9 +51,17 @@ public class GridCell {
         this.actionParameter = actionParameter;
     }
 
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "GridCell: ID:" + _id + ", Title: " + title + ", Icon: " + icon + ", ActionParameter: " + actionParameter + "\n";
+        return "GridCell: ID:" + _id + ", Title: " + title + ", Icon: " + icon + ", Action: "+ action +"ActionParameter: " + actionParameter + "\n";
     }
 }

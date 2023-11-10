@@ -57,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.btn_weather).setOnClickListener(v -> {
+            Intent intent = new Intent(this, UserAppLayoutActivity.class);
+            startActivity(intent);
+        });
+
         /* Firebase test */
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("gridCells")
@@ -66,12 +71,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                // separate 4 fields from the document: icon, _id, title and actionParameter
+                                // process each document (gridCell data) and add to the gridCells list
                                 String icon = document.getString("icon");
                                 int _id = document.get("_id", Integer.TYPE).intValue();
                                 String title = document.getString("title");
                                 String actionParameter = document.getString("actionParameter");
-                                GridCell gridCell = new GridCell(_id, title, icon, actionParameter);
+                                String action = document.getString("action");
+                                GridCell gridCell = new GridCell(_id, title, icon, action, actionParameter);
                                 gridCells.add(gridCell);
                             }
 
@@ -81,15 +87,17 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-        /* End of Firebase test */
+        // End of Firebase test
     }
-    /* Set 4th cell according to the data from Firebase */
-
     /**
+     * Set 4th cell according to the data from Firebase
+     *
      * Update the 4th cell according to the data from Firebase
      * This method should be called after populating the GridCells list with data from Firestore.
      * It sets the text of a TextView and, if needed, an image in a CardView's child views.
-     */
+     * @Postcondition: The 4th cell is updated with the data from Firebase.
+     **/
+
 
     private void updateGridCells() {
 

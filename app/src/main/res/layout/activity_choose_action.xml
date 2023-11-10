@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Courtesy of https://www.youtube.com/watch?v=amnSAwVytHg&ab_channel=FineGap -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,15 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:textStyle="bold"
+
+        android:text="User App Layout">
+    </TextView>
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="24dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="80dp"
         android:columnCount="2"
         android:rowCount="3">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/btnAddVideoCall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="0"
@@ -34,16 +47,16 @@
                 android:orientation="vertical">
                 <!-- default: 80dp -->
                 <ImageView
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/elizabeth" />
+                    android:foreground="@drawable/ic_call" />
                 <!-- Default: 18sp -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Elizabeth"
+                    android:text="Video Call"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -70,16 +83,16 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/charlotte" />
+                    android:foreground="@drawable/ic_doctor" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Volunteer"
+                    android:text="Health Care"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -106,16 +119,16 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_church" />
+                    android:src="@drawable/ic_music" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Mass"
+                    android:text="Entertainment"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -142,18 +155,16 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/ic_doctor"
-                    android:scaleX="1.2"
-                    />
+                    android:foreground="@drawable/ic_education" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Doctor"
+                    android:text="Education"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -161,13 +172,11 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/btn_weather"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="2"
             android:layout_rowWeight="1"
             android:layout_column="0"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="12dp"
@@ -184,22 +193,63 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/ic_weather"
-                    android:src="@drawable/ic_weather" />
-
+                    android:foreground="@drawable/ic_weather" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="Oct 11, 2023. 11:12 AM"></TextView>
+                    android:layout_gravity="center_horizontal"
+                    android:text="Weather"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="12dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center_horizontal"
+                    android:foreground="@drawable/ic_link" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="From Elizabeth: Good Morning!"></TextView>
+                    android:layout_gravity="center_horizontal"
+                    android:text="External Link"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </GridLayout>
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="Back"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/primary" />
+
 </RelativeLayout>

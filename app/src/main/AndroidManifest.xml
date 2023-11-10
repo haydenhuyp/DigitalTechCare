@@ -13,6 +13,17 @@
         android:theme="@style/Theme.TechCare"
         tools:targetApi="31">
         <activity
+            android:name=".AddVideoCallActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChooseActionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserAppLayoutActivity"
+            android:exported="false"
+            android:label="@string/title_activity_user_app_layout"
+            android:theme="@style/Theme.TechCare" />
+        <activity
             android:name=".CallActivity"
             android:exported="false" />
         <activity
