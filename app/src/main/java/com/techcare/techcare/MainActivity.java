@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btn_weather).setOnClickListener(v -> {
-            Intent intent = new Intent(this, UserAppLayoutActivity.class);
+            Intent intent = new Intent(this, ChooseActionActivity.class);
             startActivity(intent);
         });
 

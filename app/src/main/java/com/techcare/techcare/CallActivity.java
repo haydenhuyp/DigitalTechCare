@@ -23,7 +23,6 @@ public class CallActivity extends AppCompatActivity {
     }
 
     public void addCallFragment() {
-
         long appID = 434501726;
         String appSign = "ea3bef30fb6d3b29b11f2c6840e8923059bab0b8b6615e77b489ed320ddfb6f5";
         // Generate a random username

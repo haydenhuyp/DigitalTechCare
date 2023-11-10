@@ -26,8 +26,6 @@ public class AddVideoCallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_video_call);
 
-        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(getColor(R.color.primary)));
-
         imageView = findViewById(R.id.imageViewAddAvatar);
         floatingActionButton = findViewById(R.id.btnAddImage);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
