@@ -4,7 +4,8 @@ import static androidx.constraintlayout.widget.ConstraintLayoutStates.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -32,7 +33,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private static ArrayList<GridCell> gridCells = new ArrayList<GridCell>();
+    private void showYoutubeVideoInWebView(String url) {
+        setContentView(R.layout.activity_webview); //
+
+        WebView webView = findViewById(R.id.webview); //
+        webView.setWebViewClient(new WebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(url);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +54,12 @@ public class MainActivity extends AppCompatActivity {
         });
         /* Another way to do it by using webview: https://www.youtube.com/watch?v=V2KCAfHjySQ&ab_channel=EverydayProgrammer */
         findViewById(R.id.btn_youtube).setOnClickListener(v -> {
-            String id = "pPKMMlrFdeM";
+            // Duy's code for Webview Youtube link
+            String id = "QVsCHTnt9mo";
+            String url = "https://www.youtube.com/watch?v=" + id;
+            showYoutubeVideoInWebView(url);
+           /* Huy's code for accessing Youtube app
+            String id = "QVsCHTnt9mo";
             Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
             Intent webIntent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://www.youtube.com/watch?v=" + id));
@@ -54,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(appIntent);
             } catch (ActivityNotFoundException ex) {
                 startActivity(webIntent);
-            }
+            }*/
         });
 
         findViewById(R.id.btn_weather).setOnClickListener(v -> {
