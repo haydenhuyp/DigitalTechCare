@@ -10,6 +10,9 @@ package com.techcare.techcare;
  * https://developers.google.com/explorer-help/code-samples#java
  */
 
+// channel ID: UCi6JtCVy4XKu4BSG-AE2chg
+// API Key: AIzaSyAVd2m5rqy4WBsjq7uZS8xt4BRuueQh1Qw
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -80,10 +83,13 @@ public class YoutubeUtility {
      * execute API request. Print API response.
      *
      * @throws GeneralSecurityException, IOException, GoogleJsonResponseException
+     * @return SearchListResponse
      */
+    // TODO: complete this method
+    // API Key can be found at the top of this class
     public static SearchListResponse GetLatestVideosFromChannel(String channelId)
             throws GeneralSecurityException, IOException, GoogleJsonResponseException {
-        YouTube youtubeService = getService();
+        YouTube youtubeService = getService(); // TODO: this line throws an NullPointerError exception
         // Define and execute the API request
         YouTube.Search.List request = youtubeService.search()
                 .list(Collections.singletonList("snippet"));
