@@ -31,6 +31,18 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    // https://stackoverflow.com/questions/44342455/more-than-one-file-was-found-with-os-independent-path-meta-inf-license
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
 }
 
 dependencies {
@@ -41,6 +53,10 @@ dependencies {
     // for youtube data api
     implementation 'com.google.api-client:google-api-client:1.31.3'
     implementation 'com.google.apis:google-api-services-youtube:v3-rev20231011-2.0.0'
+    implementation group: 'com.google.api-client', name: 'google-api-client-jackson2', version: '1.28.1'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    implementation 'com.google.apis:google-api-services-sheets:v4-rev516-1.23.0'
+
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:32.5.0')

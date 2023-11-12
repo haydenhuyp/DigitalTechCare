@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 public class YoutubeUtility {
     private static final String CLIENT_SECRETS= "client_secret.json";
@@ -67,7 +68,7 @@ public class YoutubeUtility {
      */
     public static YouTube getService() throws GeneralSecurityException, IOException {
         final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        // Credential credential = authorize(httpTransport);
+        Credential credential = authorize(httpTransport);
         // credential api
         return new YouTube.Builder(httpTransport, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
@@ -80,16 +81,16 @@ public class YoutubeUtility {
      *
      * @throws GeneralSecurityException, IOException, GoogleJsonResponseException
      */
-    public static void main(String[] args)
+    public static SearchListResponse GetLatestVideosFromChannel(String channelId)
             throws GeneralSecurityException, IOException, GoogleJsonResponseException {
         YouTube youtubeService = getService();
         // Define and execute the API request
         YouTube.Search.List request = youtubeService.search()
-                .list("snippet");
-        SearchListResponse response = request.setChannelId("UCi6JtCVy4XKu4BSG-AE2chg").setKey("AIzaSyAVd2m5rqy4WBsjq7uZS8xt4BRuueQh1Qw")
+                .list(Collections.singletonList("snippet"));
+        SearchListResponse response = request.setChannelId(channelId).setKey("AIzaSyAVd2m5rqy4WBsjq7uZS8xt4BRuueQh1Qw")
                 .setMaxResults(3L)
                 .setOrder("date")
                 .execute();
-        System.out.println(response);
+        return response;
     }
 }
