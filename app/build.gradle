@@ -38,6 +38,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // for youtube data api
+    implementation 'com.google.api-client:google-api-client:1.31.3'
+    implementation 'com.google.apis:google-api-services-youtube:v3-rev20231011-2.0.0'
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:32.5.0')

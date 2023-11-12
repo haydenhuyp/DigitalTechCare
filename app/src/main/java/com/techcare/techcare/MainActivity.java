@@ -35,14 +35,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private static ArrayList<GridCell> gridCells = new ArrayList<GridCell>();
-    private void showYoutubeVideoInWebView(String url) {
-        setContentView(R.layout.activity_webview);
-
-        WebView webView = findViewById(R.id.webview);
-        webView.setWebViewClient(new WebViewClient());
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(url);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,30 +46,18 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, CallActivity.class);
             startActivity(intent);
         });
-        /* Another way to do it by using webview: https://www.youtube.com/watch?v=V2KCAfHjySQ&ab_channel=EverydayProgrammer */
+
         findViewById(R.id.btn_youtube).setOnClickListener(v -> {
-            // Duy's code for Webview Youtube link
-            String id = "QVsCHTnt9mo";
-            String url = "https://www.youtube.com/watch?v=" + id;
-            showYoutubeVideoInWebView(url);
-           /* Huy's code for accessing Youtube app
-            String id = "QVsCHTnt9mo";
-            Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
-            Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://www.youtube.com/watch?v=" + id));
-            try {
-                startActivity(appIntent);
-            } catch (ActivityNotFoundException ex) {
-                startActivity(webIntent);
-            }*/
+            Intent intent = new Intent(this, WebViewActivity.class);
+            startActivity(intent);
         });
 
         findViewById(R.id.btn_weather).setOnClickListener(v -> {
             Intent intent = new Intent(this, ChooseActionActivity.class);
             startActivity(intent);
         });
-
-        /* Firebase test */
+        /* Firebase is temporarily disabled to preserve bandwidth */
+        /* Firebase test *//*
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("gridCells")
                 .get()
@@ -104,16 +84,14 @@ public class MainActivity extends AppCompatActivity {
                 });
         // End of Firebase test
     }
-    /**
+    *//**
      * Set 4th cell according to the data from Firebase
      *
      * Update the 4th cell according to the data from Firebase
      * This method should be called after populating the GridCells list with data from Firestore.
      * It sets the text of a TextView and, if needed, an image in a CardView's child views.
      * @Postcondition: The 4th cell is updated with the data from Firebase.
-     **/
-
-
+     **//*
     private void updateGridCells() {
 
         CardView cardView = findViewById(R.id.cell4);
@@ -140,6 +118,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-        }
+        }*/
     }
 }
