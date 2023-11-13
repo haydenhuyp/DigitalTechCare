@@ -58,17 +58,19 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, GameActivity.class);
             startActivity(intent);
         });
+        new Thread(() -> {
+            try {
+                Log.w("W", "PrivateTest" + YoutubeUtility.getLatestVideosFromChannel("UCi6JtCVy4XKu4BSG-AE2chg").toString());
+            } catch (GeneralSecurityException e) {
+                Log.w("E","PrivateTest: GeneralSecurityException");
+            } catch (IOException e) {
+                Log.w("E","PrivateTest: IOException");
+            }
+            catch (Exception e){
+                Log.w("E","PrivateTest: Exception" + e.getMessage());
+            }
+        }).start();
 
-        try {
-            Log.w("W", YoutubeUtility.GetLatestVideosFromChannel("UCi6JtCVy4XKu4BSG-AE2chg").toString());
-        } catch (GeneralSecurityException e) {
-            Log.w("E","Huy: GeneralSecurityException");
-        } catch (IOException e) {
-            Log.w("E","Huy: IOException");
-        }
-        catch (Exception e){
-            Log.w("E","Huy: Exception");
-        }
         /* Firebase is temporarily disabled to preserve quota */
         /* Firebase test *//*
         FirebaseFirestore db = FirebaseFirestore.getInstance();

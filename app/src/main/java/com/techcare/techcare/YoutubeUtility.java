@@ -8,7 +8,6 @@ package com.techcare.techcare;
  * Sample Java code for youtube.search.list
  * See instructions for running these code samples locally:
  * https://developers.google.com/explorer-help/code-samples#java
- */
 
 // channel ID: UCi6JtCVy4XKu4BSG-AE2chg
 // API Key: AIzaSyAVd2m5rqy4WBsjq7uZS8xt4BRuueQh1Qw
@@ -43,12 +42,12 @@ public class YoutubeUtility {
     private static final String APPLICATION_NAME = "Digital Tech Care";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
-    /**
+    *//**
      * Create an authorized Credential object.
      *
      * @return an authorized Credential object.
      * @throws IOException
-     */
+     *//*
     public static Credential authorize(final NetHttpTransport httpTransport) throws IOException {
         // Load client secrets.
         InputStream in = YoutubeUtility.class.getResourceAsStream(CLIENT_SECRETS);
@@ -63,12 +62,12 @@ public class YoutubeUtility {
         return credential;
     }
 
-    /**
+    *//**
      * Build and return an authorized API client service.
      *
      * @return an authorized API client service
      * @throws GeneralSecurityException, IOException
-     */
+     *//*
     public static YouTube getService() throws GeneralSecurityException, IOException {
         final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         Credential credential = authorize(httpTransport);
@@ -78,13 +77,13 @@ public class YoutubeUtility {
                 .build();
     }
 
-    /**
+    *//**
      * Call function to create API service object. Define and
      * execute API request. Print API response.
      *
      * @throws GeneralSecurityException, IOException, GoogleJsonResponseException
      * @return SearchListResponse
-     */
+     *//*
     // TODO: complete this method
     // API Key can be found at the top of this class
     public static SearchListResponse GetLatestVideosFromChannel(String channelId)
@@ -94,6 +93,59 @@ public class YoutubeUtility {
         YouTube.Search.List request = youtubeService.search()
                 .list(Collections.singletonList("snippet"));
         SearchListResponse response = request.setChannelId(channelId).setKey("AIzaSyAVd2m5rqy4WBsjq7uZS8xt4BRuueQh1Qw")
+                .setMaxResults(3L)
+                .setOrder("date")
+                .execute();
+        return response;
+    }
+}*/
+
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+        import com.google.api.client.json.jackson2.JacksonFactory;
+        import com.google.api.services.youtube.YouTube;
+        import com.google.api.services.youtube.model.SearchListResponse;
+
+        import java.io.IOException;
+        import java.io.InputStream;
+        import java.io.InputStreamReader;
+        import java.security.GeneralSecurityException;
+        import java.util.Collections;
+
+public class YoutubeUtility {
+    private static final String API_KEY = "AIzaSyAVd2m5rqy4WBsjq7uZS8xt4BRuueQh1Qw";  // Replace with your API key
+    private static final String APPLICATION_NAME = "Digital Tech Care";
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
+    /**
+     * Build and return an authorized API client service.
+     *
+     * @return an authorized API client service
+     * @throws GeneralSecurityException, IOException
+     */
+    public static YouTube getService() throws GeneralSecurityException, IOException {
+        final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        return new YouTube.Builder(httpTransport, JSON_FACTORY, null)
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+    }
+
+    /**
+     * Call function to create API service object. Define and
+     * execute API request. Print API response.
+     *
+     * @throws GeneralSecurityException, IOException
+     * @return SearchListResponse
+     */
+    public static SearchListResponse getLatestVideosFromChannel(String channelId)
+            throws GeneralSecurityException, IOException {
+        YouTube youtubeService = getService();
+        // Define and execute the API request
+        YouTube.Search.List request = youtubeService.search()
+                .list(Collections.singletonList("snippet"));
+        SearchListResponse response = request.setChannelId(channelId)
+                .setKey(API_KEY)
                 .setMaxResults(3L)
                 .setOrder("date")
                 .execute();
