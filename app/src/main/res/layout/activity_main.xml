@@ -136,6 +136,7 @@
             app:cardElevation="12dp">
 
             <LinearLayout
+                android:id="@+id/btn_sudoku"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -145,15 +146,14 @@
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/ic_doctor"
-                    android:scaleX="1.2"
+                    android:foreground="@drawable/ic_sudoku"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Doctor"
+                    android:text="Sudoku"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />

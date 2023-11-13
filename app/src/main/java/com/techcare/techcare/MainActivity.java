@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        findViewById(R.id.btn_weather).setOnClickListener(v -> {
+        findViewById(R.id.btn_sudoku).setOnClickListener(v -> {
             Intent intent = new Intent(this, GameActivity.class);
             startActivity(intent);
         });

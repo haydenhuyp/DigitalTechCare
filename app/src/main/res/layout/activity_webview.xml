@@ -25,11 +25,13 @@
             android:gravity="center"
             android:layout_weight="1">
             <ImageView
+                android:id="@+id/imgMuteUnmute"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_mute" />
             <TextView
+                android:id="@+id/txtMuteUnmute"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

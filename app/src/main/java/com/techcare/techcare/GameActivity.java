@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 public class GameActivity extends AppCompatActivity {
     private byte currentGameId = 1;
 
@@ -20,27 +22,27 @@ public class GameActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        ArrayList<Drawable> images = new ArrayList<Drawable>();
+        images.add(getResources().getDrawable(R.drawable.sudoku1));
+        images.add(getResources().getDrawable(R.drawable.sudoku2));
+        images.add(getResources().getDrawable(R.drawable.sudoku3));
+        images.add(getResources().getDrawable(R.drawable.sudoku4));
+        images.add(getResources().getDrawable(R.drawable.sudoku5));
+        images.add(getResources().getDrawable(R.drawable.sudoku6));
+        images.add(getResources().getDrawable(R.drawable.sudoku7));
+        images.add(getResources().getDrawable(R.drawable.sudoku8));
+        images.add(getResources().getDrawable(R.drawable.sudoku9));
+        images.add(getResources().getDrawable(R.drawable.sudoku10));
+
         findViewById(R.id.btnNextGame).setOnClickListener(v->{
             ImageView imageView = findViewById(R.id.imageViewGame);
+
             currentGameId++;
-            if (currentGameId > 4) {
+            if (currentGameId > 10) {
                 currentGameId = 1;
             }
-            // not a good way to do this, but it works temporarily
-            switch (currentGameId) {
-                case 1:
-                    imageView.setImageResource(R.drawable.sudoku1);
-                    break;
-                case 2:
-                    imageView.setImageResource(R.drawable.sudoku2);
-                    break;
-                case 3:
-                    imageView.setImageResource(R.drawable.sudoku3);
-                    break;
-                case 4:
-                    imageView.setImageResource(R.drawable.sudoku4);
-                    break;
-            }
+            // set image
+            imageView.setImageDrawable(images.get(currentGameId - 1));
         });
     }
 }
