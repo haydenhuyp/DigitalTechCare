@@ -13,24 +13,35 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class WebViewActivity extends AppCompatActivity {
     private WebView webView;
     private int currentVolume;
     private boolean isMuted = false;
+    protected String latestMassVideoURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
 
+        // get the latest mass video URL from the intent
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            latestMassVideoURL = extras.getString("latestMassVideoURL");
+        }
         webView = findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl(latestMassVideoURL);
 
-        webView.loadUrl("https://www.youtube.com/watch?v=" + "I1u6r7Kw9Go");
-        // go back to main activity when click on back button
         findViewById(R.id.btnBackWebView).setOnClickListener(v -> {
             // set back the volume to the previous level
             AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
