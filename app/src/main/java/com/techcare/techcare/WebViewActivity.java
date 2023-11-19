@@ -26,6 +26,7 @@ public class WebViewActivity extends AppCompatActivity {
     private int currentVolume;
     private boolean isMuted = false;
     protected String latestMassVideoURL;
+    private final String BACK_UP_URL = "https://www.youtube.com/watch?v=oBQaVn7MEAM";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,7 @@ public class WebViewActivity extends AppCompatActivity {
 
         // get the latest mass video URL from the intent
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            latestMassVideoURL = extras.getString("latestMassVideoURL");
-        }
+        latestMassVideoURL = (extras!=null) ? extras.getString("latestMassVideoURL") : BACK_UP_URL;
         webView = findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
