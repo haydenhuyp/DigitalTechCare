@@ -192,13 +192,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="Oct 11, 2023. 11:12 AM"></TextView>
+                    android:text="Dec 01, 2023. 10:10 AM"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="From Elizabeth: Good Morning!"></TextView>
+                    android:text="Good Morning Mom!"></TextView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </GridLayout>

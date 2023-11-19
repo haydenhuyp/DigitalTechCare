@@ -39,6 +39,11 @@ public class AddVideoCallActivity extends AppCompatActivity {
                         .start();
             }
         });
+
+        findViewById(R.id.btnBackAddVideoCall).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ChooseActionActivity.class);
+            startActivity(intent);
+        });
         }
 
     @Override

@@ -100,6 +100,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/btnMultimediaChooseAction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="1"
@@ -112,7 +113,6 @@
             app:cardElevation="12dp">
 
             <LinearLayout
-                android:id="@+id/btn_youtube"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -128,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Entertainment"
+                    android:text="Multimedia"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
