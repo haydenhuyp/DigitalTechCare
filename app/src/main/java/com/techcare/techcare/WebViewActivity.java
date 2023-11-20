@@ -26,6 +26,7 @@ public class WebViewActivity extends AppCompatActivity {
     private int currentVolume;
     private boolean isMuted = false;
     protected String latestMassVideoURL;
+    protected String currentURL;
     private final String BACK_UP_URL = "https://www.youtube.com/watch?v=oBQaVn7MEAM";
 
     @Override
@@ -35,11 +36,15 @@ public class WebViewActivity extends AppCompatActivity {
 
         // get the latest mass video URL from the intent
         Bundle extras = getIntent().getExtras();
-        latestMassVideoURL = (extras!=null) ? extras.getString("latestMassVideoURL") : BACK_UP_URL;
+
+        if (extras != null){
+            latestMassVideoURL = (extras.getString("latestMassVideoURL")!=null) ? extras.getString("latestMassVideoURL") : BACK_UP_URL;
+            currentURL = (extras.getString("youtube_url")!=null) ? extras.getString("youtube_url") : latestMassVideoURL;
+        }
         webView = findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(latestMassVideoURL);
+        webView.loadUrl(currentURL);
 
         findViewById(R.id.btnBackWebView).setOnClickListener(v -> {
             // set back the volume to the previous level

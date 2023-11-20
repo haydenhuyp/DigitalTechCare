@@ -75,6 +75,7 @@
                 android:textSize="20sp"></CheckBox>
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtMinutesChooseMultimediaYoutube"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
