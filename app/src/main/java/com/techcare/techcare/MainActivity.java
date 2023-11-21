@@ -2,6 +2,13 @@ package com.techcare.techcare;
 
 import static androidx.constraintlayout.widget.ConstraintLayoutStates.TAG;
 
+import static com.techcare.techcare.DataUtility.APP_ID;
+import static com.techcare.techcare.DataUtility.APP_SIGN;
+import static com.techcare.techcare.DataUtility.currentUserID;
+import static com.techcare.techcare.DataUtility.currentUserName;
+import static com.techcare.techcare.DataUtility.targetUserID;
+import static com.techcare.techcare.DataUtility.targetUserName;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +36,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -36,7 +44,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.zegocloud.uikit.plugin.invitation.ZegoInvitationType;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
 import com.zegocloud.uikit.prebuilt.call.config.ZegoNotificationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallConfigProvider;
 import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationConfig;
 import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
 import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
@@ -46,6 +59,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.json.*;
 
@@ -57,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     // works temporarily should be changed
     private int currentIndexOfGrid3InGridCells = 0;
     private int currentIndexOfGrid4InGridCells = 1;
+    private ZegoSendCallInvitationButton btnZegoCallSendInvitation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,11 +110,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
-
-        // startCallInvitationService();
-        findViewById(R.id.btn_call).setOnClickListener(v -> {
+        findViewById(R.id.cell1).setOnClickListener(v -> {
             Intent intent = new Intent(this, CallActivity.class);
             startActivity(intent);
+            });
+
+        startCallInvitationService();
+        initSendCallInvitationButton();
+        findViewById(R.id.cell2).setOnClickListener(v -> {
+            btnZegoCallSendInvitation.performClick();
         });
 
         findViewById(R.id.cell3).setOnClickListener(v -> {
@@ -112,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        findViewById(R.id.btn_sudoku).setOnClickListener(v -> {
+        findViewById(R.id.cell4).setOnClickListener(v -> {
             Intent intent = new Intent(this, GameActivity.class);
             startActivity(intent);
         });
@@ -259,17 +278,48 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void startCallInvitationService(){
-        long APP_ID = 2123839746;
-        String APP_SIGN = "19d9efe898b88872ae29dc185adae5520ddb87bd29b717d08db5913d17ea1968";
-        String userID = "the_ceo";
-        String userName = userID;
         ZegoUIKitPrebuiltCallInvitationConfig callInvitationConfig = new ZegoUIKitPrebuiltCallInvitationConfig();
         callInvitationConfig.notifyWhenAppRunningInBackgroundOrQuit = true;
+
+        callInvitationConfig.provider = new ZegoUIKitPrebuiltCallConfigProvider() {
+            @Override
+            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
+                ZegoUIKitPrebuiltCallConfig config = null;
+                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                boolean isGroupCall = invitationData.invitees.size() > 1;
+                if (isVideoCall && isGroupCall) {
+                    config = ZegoUIKitPrebuiltCallConfig.groupVideoCall();
+                } else if (!isVideoCall && isGroupCall) {
+                    config = ZegoUIKitPrebuiltCallConfig.groupVoiceCall();
+                } else if (!isVideoCall) {
+                    config = ZegoUIKitPrebuiltCallConfig.oneOnOneVoiceCall();
+                } else {
+                    config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
+                }
+                config.topMenuBarConfig.isVisible = true;
+                config.topMenuBarConfig.buttons.add(ZegoMenuBarButtonName.MINIMIZING_BUTTON);
+                return config;
+            }
+        };
+
         ZegoNotificationConfig notificationConfig = new ZegoNotificationConfig();
         notificationConfig.sound = "zego_uikit_sound_call";
         notificationConfig.channelID = "CallInvitation";
         notificationConfig.channelName = "CallInvitation";
-        ZegoUIKitPrebuiltCallInvitationService.init(getApplication(), APP_ID, APP_SIGN, userID, userName,callInvitationConfig);
+        ZegoUIKitPrebuiltCallInvitationService.init(getApplication(), APP_ID, APP_SIGN, currentUserID, currentUserName, callInvitationConfig);
+    }
+
+    private void initSendCallInvitationButton(){
+        Context context = getApplicationContext();
+
+        btnZegoCallSendInvitation = new ZegoSendCallInvitationButton(context);
+        // If true, a video call. Otherwise, a voice call is made.
+        btnZegoCallSendInvitation.setIsVideoCall(true);
+        btnZegoCallSendInvitation.setResourceID("zego_uikit_call");
+
+        btnZegoCallSendInvitation.setOnClickListener(v -> {
+            btnZegoCallSendInvitation.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID, targetUserName)));
+        });
     }
 
     @Override

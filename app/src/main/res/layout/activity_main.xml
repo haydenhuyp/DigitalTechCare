@@ -16,6 +16,7 @@
         android:rowCount="3">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cell1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="0"
@@ -43,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Elizabeth"
+                    android:text="Volunteers"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -51,7 +52,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/btn_call"
+            android:id="@+id/cell2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="0"
@@ -79,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Volunteer"
+                    android:text="Huy Pham"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -136,7 +137,6 @@
             app:cardElevation="12dp">
 
             <LinearLayout
-                android:id="@+id/btn_sudoku"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
