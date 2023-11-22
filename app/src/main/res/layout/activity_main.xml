@@ -38,7 +38,7 @@
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/elizabeth" />
+                    android:foreground="@drawable/volunteers" />
                 <!-- Default: 18sp -->
                 <TextView
                     android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/charlotte" />
+                    android:foreground="@drawable/huy" />
 
                 <TextView
                     android:layout_width="wrap_content"
