@@ -2,11 +2,19 @@ package com.techcare.techcare;
 
 import static androidx.constraintlayout.widget.ConstraintLayoutStates.TAG;
 
+import static com.techcare.techcare.DataUtility.APP_ID;
+import static com.techcare.techcare.DataUtility.APP_SIGN;
+import static com.techcare.techcare.DataUtility.currentUserID;
+import static com.techcare.techcare.DataUtility.currentUserName;
+import static com.techcare.techcare.DataUtility.targetUserID;
+import static com.techcare.techcare.DataUtility.targetUserName;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,8 +32,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.zegocloud.uikit.plugin.invitation.ZegoInvitationType;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoNotificationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
+import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class UserAppLayoutActivity extends AppCompatActivity {
     private static volatile ArrayList<GridCell> gridCells = new ArrayList<GridCell>();
@@ -61,6 +80,10 @@ public class UserAppLayoutActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        findViewById(R.id.btnCallUserAppLayout).setOnClickListener(v -> {
+
+        });
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("gridCells")
                 .get()
@@ -85,8 +108,6 @@ public class UserAppLayoutActivity extends AppCompatActivity {
                                     for (int i = 0; i < gridCells.size(); i++) {
                                         Log.w(TAG, "gridCell: " + gridCells.get(i).toString());
                                     }
-
-
                                 }
                             });
                         } else {
@@ -196,4 +217,4 @@ public class UserAppLayoutActivity extends AppCompatActivity {
             }
         }
     }
-    }
+}

@@ -3,11 +3,12 @@ package com.techcare.techcare;
 import java.util.Random;
 
 public class DataUtility {
-    protected static String currentUserID = "the_cto1";
-    protected static String currentUserName = "The CTO";
-    protected static String targetUserID = "the_ceo1";
-    protected static String targetUserName = "The CEO";
-    protected static String call_ID = "the_ceo1_the_cto1";
+    protected static String currentUser = "residence";
+    protected static String currentUserID = (currentUser=="resident") ? "the_resident1" : "the_staff1";
+    protected static String currentUserName = (currentUser=="resident") ? "Resident" : "Staff";
+    protected static String targetUserID = (currentUser=="resident") ? "the_staff1" : "the_resident1";
+    protected static String targetUserName = (currentUser=="resident") ? "Staff" : "Resident";
+    protected static String call_ID = "the_residence_staff";
     protected static final long APP_ID = 2123839746;
     protected static final String APP_SIGN = "19d9efe898b88872ae29dc185adae5520ddb87bd29b717d08db5913d17ea1968";
 

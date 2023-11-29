@@ -65,7 +65,7 @@ import org.json.*;
 
 public class MainActivity extends AppCompatActivity {
     private static volatile ArrayList<GridCell> gridCells = new ArrayList<GridCell>();
-    protected String latestMassVideoURL;
+    protected String latestMassVideoURL = "";
     private final String DAILY_TV_MASS_CHANNEL_ID = "UCi6JtCVy4XKu4BSG-AE2chg";
 
     // works temporarily should be changed
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.cell1).setOnClickListener(v -> {
             Intent intent = new Intent(this, CallActivity.class);
             startActivity(intent);
-            });
+        });
 
         startCallInvitationService();
         initSendCallInvitationButton();
@@ -163,10 +163,11 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    /*for (int i = 0; i < gridCells.size(); i++) {
+                                    for (int i = 0; i < gridCells.size(); i++) {
                                         Log.w(TAG, "gridCell: " + gridCells.get(i).toString());
-                                    }*/
+                                    }
                                     // put updateGridCells() here if it doesn't work
+
                                 }
                             });
                         } else {

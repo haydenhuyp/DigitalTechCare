@@ -29,7 +29,7 @@ public class ChooseMultimediaYouTube extends AppCompatActivity {
     CheckBox chkTurnOnAuto;
     TextInputEditText txtMinutes;
     private String name = "YouTube";
-    private String icon = "youtube_icon";
+    private String icon = "youtube_logo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,7 @@ public class ChooseMultimediaYouTube extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String iconName = (extras.get("icon") != null) ? extras.get("icon").toString() : "youtube_icon";
+            String iconName = (extras.get("icon") != null) ? extras.get("icon").toString() : "youtube_logo";
             icon = iconName;
             name = extras.get("name") != null ? extras.get("name").toString() : "YouTube";
             if (iconName != null) {

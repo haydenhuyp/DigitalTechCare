@@ -33,20 +33,21 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">
-                <!-- default: 80dp -->
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/volunteers" />
-                <!-- Default: 18sp -->
+                    android:foreground="@drawable/themount"
+                    android:scaleX="1.2"
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Volunteers"
+                    android:text="Community\nRoom"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -74,13 +75,13 @@
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/huy" />
+                    android:foreground="@drawable/vy" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Huy Pham"
+                    android:text="Vitalis"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
