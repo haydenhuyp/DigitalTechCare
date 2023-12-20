@@ -3,7 +3,7 @@ package com.techcare.techcare;
 import java.util.Random;
 
 public class DataUtility {
-    protected static String currentUser = "residence";
+    protected static String currentUser = "resident";
     protected static String currentUserID = (currentUser=="resident") ? "the_resident1" : "the_staff1";
     protected static String currentUserName = (currentUser=="resident") ? "Resident" : "Staff";
     protected static String targetUserID = (currentUser=="resident") ? "the_staff1" : "the_resident1";

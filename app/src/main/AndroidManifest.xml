@@ -15,6 +15,10 @@
         android:theme="@style/Theme.TechCare"
         tools:targetApi="31">
         <activity
+            android:name=".GetIdActivity"
+            android:exported="false" >
+        </activity>
+        <activity
             android:name=".ChangeIconActivity"
             android:exported="false" />
         <activity

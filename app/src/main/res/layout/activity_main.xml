@@ -34,6 +34,22 @@
                 android:gravity="center"
                 android:orientation="vertical">
                 <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal"
+                    android:foreground="@drawable/themount"
+                    android:scaleX="1.2"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Community\nRoom"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="36sp"
+                    android:textStyle="bold" />
+                <!--<ImageView
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center_horizontal"
@@ -48,7 +64,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold" />-->
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -72,8 +88,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:foreground="@drawable/vy" />
 
@@ -83,7 +99,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Vitalis"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="40sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -108,8 +124,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:foreground="@drawable/ic_church" />
 
@@ -119,7 +135,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Mass"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="40sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -144,8 +160,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:foreground="@drawable/ic_sudoku"
                     />
@@ -156,7 +172,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Sudoku"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="40sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -182,28 +198,29 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_gravity="center_horizontal"
                     android:foreground="@drawable/ic_weather"
                     android:src="@drawable/ic_weather" />
 
 
                 <TextView
+                    android:id="@+id/txtDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="30sp"
                     android:text="Dec 01, 2023. 10:10 AM"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="30sp"
                     android:text="Good Morning Mom!"></TextView>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="30sp"
                     android:text="9 am: Meet Doctor "></TextView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

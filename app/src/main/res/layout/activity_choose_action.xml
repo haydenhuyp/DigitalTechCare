@@ -26,7 +26,7 @@
         android:textAlignment="center"
         android:background="@color/primary"
         android:text="CHOOSE ACTION"
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,8 +63,8 @@
                 android:orientation="vertical">
                 <!-- default: 80dp -->
                 <ImageView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:foreground="@drawable/ic_call" />
                 <!-- Default: 18sp -->
@@ -74,7 +74,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Video Call"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="35sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -99,8 +99,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:foreground="@drawable/ic_doctor" />
 
@@ -110,7 +110,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Health Care"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="35sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -135,8 +135,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_music" />
 
@@ -146,7 +146,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Multimedia"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="35sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -171,8 +171,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:foreground="@drawable/ic_education" />
 
@@ -182,7 +182,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Education"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="35sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -206,8 +206,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:foreground="@drawable/ic_weather" />
 
@@ -217,7 +217,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Weather"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="35sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -241,8 +241,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:foreground="@drawable/ic_link" />
 
@@ -252,7 +252,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="External Link"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="35sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -266,5 +266,6 @@
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:text="Back"
+        android:textSize="30sp"
         android:backgroundTint="@color/primary" />
 </RelativeLayout>

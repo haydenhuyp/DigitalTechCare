@@ -62,6 +62,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.json.*;
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     private static volatile ArrayList<GridCell> gridCells = new ArrayList<GridCell>();
@@ -110,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
+        // get date time and format it like this: Dec 01, 2023. 10:10 AM
+        TextView txtDate = findViewById(R.id.txtDate);
+        txtDate.setText(DateTimeUtility.getCurrentDateTime());
+
         findViewById(R.id.cell1).setOnClickListener(v -> {
             Intent intent = new Intent(this, CallActivity.class);
             startActivity(intent);
@@ -137,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btn_weather).setOnClickListener(v -> {
-            Intent intent = new Intent(this, UserAppLayoutActivity.class);
-            startActivity(intent);
+            /*Intent intent = new Intent(this, UserAppLayoutActivity.class);
+            startActivity(intent);*/
         });
 
 
@@ -280,7 +285,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void startCallInvitationService(){
         ZegoUIKitPrebuiltCallInvitationConfig callInvitationConfig = new ZegoUIKitPrebuiltCallInvitationConfig();
-        callInvitationConfig.notifyWhenAppRunningInBackgroundOrQuit = true;
+        // not sure why this isn't working, maybe from Zegocloud's side
+        /* callInvitationConfig.notifyWhenAppRunningInBackgroundOrQuit = true; */
 
         callInvitationConfig.provider = new ZegoUIKitPrebuiltCallConfigProvider() {
             @Override
