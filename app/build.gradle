@@ -59,14 +59,16 @@ dependencies {
     implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     implementation 'com.google.apis:google-api-services-sheets:v4-rev516-1.23.0'
 
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
 
-    // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:32.5.0')
+    // Add the dependency for the Cloud Storage library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-storage")
 
     // https://github.com/Dhaval2404/ImagePicker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
-    // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics'
     implementation "com.google.firebase:firebase-firestore"

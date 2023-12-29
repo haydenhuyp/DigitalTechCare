@@ -225,4 +225,16 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </GridLayout>
+
+    <ImageView
+        android:id="@+id/mainImgOverlayingNotification"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="100dp"
+        app:srcCompat="@drawable/charlotte"
+        android:background="@color/white"
+        android:contentDescription="A Notification" />
 </RelativeLayout>

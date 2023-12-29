@@ -27,9 +27,6 @@ import java.util.Collections;
 import java.util.Random;
 
 public class CallActivity extends AppCompatActivity {
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

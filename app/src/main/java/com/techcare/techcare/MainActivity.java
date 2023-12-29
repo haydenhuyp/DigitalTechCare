@@ -142,8 +142,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btn_weather).setOnClickListener(v -> {
-            /*Intent intent = new Intent(this, UserAppLayoutActivity.class);
-            startActivity(intent);*/
+            Intent intent = new Intent(this, StorageActivity.class);
+            startActivity(intent);
+        });
+
+        /* The overlaying notification */
+        findViewById(R.id.mainImgOverlayingNotification).setOnClickListener(v -> {
+            // make the mainImgOverlayingNotification disappear
+            findViewById(R.id.mainImgOverlayingNotification).setVisibility(View.GONE);
         });
 
 
