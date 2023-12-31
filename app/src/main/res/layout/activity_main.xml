@@ -163,14 +163,14 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/ic_sudoku"
+                    android:foreground="@drawable/ic_schedule"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Sudoku"
+                    android:text="Schedule"
                     android:textColor="@color/black"
                     android:textSize="40sp"
                     android:textStyle="bold" />
@@ -202,7 +202,8 @@
                     android:layout_height="120dp"
                     android:layout_gravity="center_horizontal"
                     android:foreground="@drawable/ic_weather"
-                    android:src="@drawable/ic_weather" />
+                    android:src="@drawable/ic_weather"
+                    android:contentDescription="Weather Logo" />
 
 
                 <TextView
@@ -226,15 +227,33 @@
         </androidx.cardview.widget.CardView>
     </GridLayout>
 
-    <ImageView
-        android:id="@+id/mainImgOverlayingNotification"
+    <LinearLayout
+        android:id="@+id/overlayingNotification"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@color/white"
         android:layout_marginStart="100dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="100dp"
-        app:srcCompat="@drawable/charlotte"
-        android:background="@color/white"
-        android:contentDescription="A Notification" />
+        android:layout_marginBottom="100dp">
+        <TextView
+            android:id="@+id/mainTextOverlayingNotification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Tap to Dismiss"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            />
+        <ImageView
+            android:id="@+id/mainImgOverlayingNotification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/charlotte" />
+    </LinearLayout>
+
 </RelativeLayout>

@@ -15,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -24,6 +27,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,6 +49,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.zegocloud.uikit.ZegoUIKit;
+import com.zegocloud.uikit.components.audiovideo.ZegoBaseAudioVideoForegroundView;
+import com.zegocloud.uikit.components.audiovideo.ZegoForegroundViewProvider;
+import com.zegocloud.uikit.components.common.ZegoButton;
 import com.zegocloud.uikit.plugin.invitation.ZegoInvitationType;
 import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
 import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
@@ -55,14 +66,18 @@ import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationS
 import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
 import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.*;
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     private static volatile ArrayList<GridCell> gridCells = new ArrayList<GridCell>();
@@ -70,9 +85,17 @@ public class MainActivity extends AppCompatActivity {
     private final String DAILY_TV_MASS_CHANNEL_ID = "UCi6JtCVy4XKu4BSG-AE2chg";
 
     // works temporarily should be changed
-    private int currentIndexOfGrid3InGridCells = 0;
-    private int currentIndexOfGrid4InGridCells = 1;
+    private final int currentIndexOfGrid3InGridCells = 0;
+    private final int currentIndexOfGrid4InGridCells = 1;
     private ZegoSendCallInvitationButton btnZegoCallSendInvitation;
+
+    private StorageReference storageReference;
+
+    private ImageView mainImgOverlayingNotification;
+    private TextView mainTextOverlayingNotification;
+    private LinearLayout overlayingNotification;
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private Bitmap menuImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // keeps screen on
 
-        // start thread to get the latest mass video URL from YoutubeDataAPI
+        // get the latest mass video URL from YoutubeDataAPI
         new Thread(() -> {
             try{
                 String jsonString = YoutubeUtility.getLatestVideosFromChannel(DAILY_TV_MASS_CHANNEL_ID).toString();
@@ -110,10 +133,45 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Error getting latest mass video URL from YoutubeDataAPI: ", e);
             }
         }).start();
+        mainImgOverlayingNotification = findViewById(R.id.mainImgOverlayingNotification);
+        mainTextOverlayingNotification = findViewById(R.id.mainTextOverlayingNotification);
+        overlayingNotification = findViewById(R.id.overlayingNotification);
+        mainImgOverlayingNotification.setVisibility(View.GONE);
+        mainTextOverlayingNotification.setVisibility(View.GONE);
+        overlayingNotification.setVisibility(View.GONE);
+        new Thread(() -> {
+            // TODO: change this ImageID
+            String imageID = "menu";
+
+            storageReference = FirebaseStorage.getInstance().getReference("images/" + imageID /*+ ".png"*/);
+            final File localFile;
+            try {
+                localFile = File.createTempFile("tempFile", ".png");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            storageReference.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+                menuImage = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                mainImgOverlayingNotification.setImageBitmap(menuImage);
+                mainImgOverlayingNotification.setVisibility(View.VISIBLE);
+                mainTextOverlayingNotification.setVisibility(View.VISIBLE);
+                overlayingNotification.setVisibility(View.VISIBLE);
+            }).addOnFailureListener(e -> {
+                Toast.makeText(this, "Failed to download image: " + e, Toast.LENGTH_SHORT).show();
+            });
+        }).start();
 
         // get date time and format it like this: Dec 01, 2023. 10:10 AM
-        TextView txtDate = findViewById(R.id.txtDate);
-        txtDate.setText(DateTimeUtility.getCurrentDateTime());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                TextView txtDate = findViewById(R.id.txtDate);
+                txtDate.setText(DateTimeUtility.getCurrentDateTime());
+                // Repeat the task every second (1000 milliseconds)
+                handler.postDelayed(this, 1000);
+            }
+        }, 1000);
 
         findViewById(R.id.cell1).setOnClickListener(v -> {
             Intent intent = new Intent(this, CallActivity.class);
@@ -137,8 +195,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.cell4).setOnClickListener(v -> {
-            Intent intent = new Intent(this, GameActivity.class);
-            startActivity(intent);
+            /*Intent intent = new Intent(this, GameActivity.class);
+            startActivity(intent);*/
+            if (menuImage != null) {
+                mainImgOverlayingNotification.setImageBitmap(menuImage);
+                overlayingNotification.setVisibility(View.VISIBLE);
+                mainImgOverlayingNotification.setVisibility(View.VISIBLE);
+                mainTextOverlayingNotification.setVisibility(View.VISIBLE);
+
+            }
         });
 
         findViewById(R.id.btn_weather).setOnClickListener(v -> {
@@ -147,9 +212,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /* The overlaying notification */
-        findViewById(R.id.mainImgOverlayingNotification).setOnClickListener(v -> {
+        mainImgOverlayingNotification.setOnClickListener(v -> {
             // make the mainImgOverlayingNotification disappear
-            findViewById(R.id.mainImgOverlayingNotification).setVisibility(View.GONE);
+            overlayingNotification.setVisibility(View.GONE);
         });
 
 
@@ -291,8 +356,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void startCallInvitationService(){
         ZegoUIKitPrebuiltCallInvitationConfig callInvitationConfig = new ZegoUIKitPrebuiltCallInvitationConfig();
-        // not sure why this isn't working, maybe from Zegocloud's side
-        /* callInvitationConfig.notifyWhenAppRunningInBackgroundOrQuit = true; */
+         // not sure why this isn't working, maybe from Zegocloud's side
+         // callInvitationConfig.notifyWhenAppRunningInBackgroundOrQuit = true;
 
         callInvitationConfig.provider = new ZegoUIKitPrebuiltCallConfigProvider() {
             @Override
@@ -310,7 +375,8 @@ public class MainActivity extends AppCompatActivity {
                     config = ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall();
                 }
                 config.topMenuBarConfig.isVisible = true;
-                config.topMenuBarConfig.buttons.add(ZegoMenuBarButtonName.MINIMIZING_BUTTON);
+                config.bottomMenuBarConfig.buttons.add(ZegoMenuBarButtonName.HANG_UP_BUTTON);
+
                 return config;
             }
         };
@@ -337,7 +403,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
         ZegoUIKitPrebuiltCallInvitationService.unInit();
+        super.onDestroy();
     }
 }
