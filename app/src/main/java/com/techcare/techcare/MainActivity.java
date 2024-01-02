@@ -83,14 +83,8 @@ public class MainActivity extends AppCompatActivity {
     private static volatile ArrayList<GridCell> gridCells = new ArrayList<GridCell>();
     protected String latestMassVideoURL = "";
     private final String DAILY_TV_MASS_CHANNEL_ID = "UCi6JtCVy4XKu4BSG-AE2chg";
-
-    // works temporarily should be changed
-    private final int currentIndexOfGrid3InGridCells = 0;
-    private final int currentIndexOfGrid4InGridCells = 1;
     private ZegoSendCallInvitationButton btnZegoCallSendInvitation;
-
     private StorageReference storageReference;
-
     private ImageView mainImgOverlayingNotification;
     private TextView mainTextOverlayingNotification;
     private LinearLayout overlayingNotification;
@@ -125,6 +119,10 @@ public class MainActivity extends AppCompatActivity {
                 for (YoutubeVideo video : videos) {
                     if (video.getVideoTitle().contains("Daily") && video.getVideoTitle().contains("Mass")) {
                         latestMassVideoURL = video.getVideoUrl();
+                        // write to Firebase
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        DocumentReference docRef = db.collection("gridCells").document("grid3");
+                        docRef.update("actionParameter", latestMassVideoURL);
                         break;
                     }
                 }
@@ -161,14 +159,13 @@ public class MainActivity extends AppCompatActivity {
             });
         }).start();
 
-        // get date time and format it like this: Dec 01, 2023. 10:10 AM
-
+        // Date time format: Dec 01, 2023. 10:10 AM
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 TextView txtDate = findViewById(R.id.txtDate);
                 txtDate.setText(DateTimeUtility.getCurrentDateTime());
-                // Repeat the task every second (1000 milliseconds)
+                // update every second (1000 milliseconds)
                 handler.postDelayed(this, 1000);
             }
         }, 1000);
@@ -187,10 +184,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.cell3).setOnClickListener(v -> {
             Intent intent = new Intent(this, WebViewActivity.class);
             intent.putExtra("latestMassVideoURL", latestMassVideoURL);
-            if (gridCells.size() > currentIndexOfGrid3InGridCells) {
-                intent.putExtra("youtube_url", gridCells.get(currentIndexOfGrid3InGridCells).getActionParameter().toString());
+            if (gridCells.size() > 0) {
+                intent.putExtra("youtube_url", gridCells.get(2).getActionParameter().toString());
             }
-
             startActivity(intent);
         });
 
@@ -213,11 +209,10 @@ public class MainActivity extends AppCompatActivity {
 
         /* The overlaying notification */
         mainImgOverlayingNotification.setOnClickListener(v -> {
-            // make the mainImgOverlayingNotification disappear
             overlayingNotification.setVisibility(View.GONE);
         });
 
-
+        /*
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("gridCells")
                 .get()
@@ -251,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-
 
         final DocumentReference docRef = db.collection("gridCells").document("grid3");
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -294,62 +288,116 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "Current data: null");
                 }
             }
-        });
+        });*/
+        /* Update the grid cells with the data from Firebase */
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("gridCells")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // process each document (gridCell data) and add to the gridCells list
+                            String icon = document.getString("icon");
+                            int _id = document.get("_id", Integer.TYPE).intValue();
+                            String title = document.getString("title");
+                            String actionParameter = document.getString("actionParameter");
+                            String action = document.getString("action");
+                            GridCell gridCell = new GridCell(_id, title, icon, actionParameter, action);
+                            gridCells.add(gridCell);
+                        }
+                        updateGridCells();
+                    } else {
+                        Log.e(TAG, "Error getting data from Firebase: ", task.getException());
+                    }
+                });
+        /* Update the cells every time the data in Firebase changes */
+        db.collection("gridCells")
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Log.e(TAG, "Firebase listen failed: ", error);
+                        return;
+                    }
+
+                    if (value != null) {
+                        db.collection("gridCells")
+                                .get()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            // process each document (gridCell data) and update to the gridCells list
+                                            String icon = document.getString("icon");
+                                            int _id = document.get("_id", Integer.TYPE).intValue();
+                                            String title = document.getString("title");
+                                            String actionParameter = document.getString("actionParameter");
+                                            String action = document.getString("action");
+                                            GridCell gridCell = new GridCell(_id, title, icon, actionParameter, action);
+                                            gridCells.set(gridCell.get_id() - 1, gridCell);
+                                        }
+                                        updateGridCells();
+                                    } else {
+                                        Log.e(TAG, "Error getting updated data from Firebase: ", task.getException());
+                                    }
+                                });
+                    } else {
+                        Log.d(TAG, "Current data: null");
+                    }
+                });
     }
 
+    /**
+     * Update the grid cells on the main activity
+     */
     private void updateGridCells() {
+        CardView cardView1 = findViewById(R.id.cell1);
+        CardView cardView2 = findViewById(R.id.cell2);
         CardView cardView3 = findViewById(R.id.cell3);
         CardView cardView4 = findViewById(R.id.cell4);
-        int currentIndex = 0;
         for (int i = 0; i < gridCells.size(); i++) {
-            if (gridCells.get(i).get_id() == 3) {
-                // update cardView3 with the data from Firebase
-                if (cardView3 != null) {
-                    if (cardView3.getChildCount() > 0) {
-                        // first child is a LinearLayout
-                        View childView = cardView3.getChildAt(0);
+            switch (gridCells.get(i).get_id()){
+                case 1:
+                    /* Hard-coded text to fix the \n issue - Firebase could not process \n correctly */
+                    updateCardView(cardView1, "Community\nRoom", gridCells.get(i).getIcon());
+                    break;
+                case 2:
+                    updateCardView(cardView2, gridCells.get(i).getTitle(), gridCells.get(i).getIcon());
+                    break;
+                case 3:
+                    updateCardView(cardView3, gridCells.get(i).getTitle(), gridCells.get(i).getIcon());
+                    break;
+                case 4:
+                    updateCardView(cardView4, gridCells.get(i).getTitle(), gridCells.get(i).getIcon());
+                    break;
+            }
+        }
+    }
 
-                        if (childView instanceof LinearLayout) {
-                            LinearLayout linearLayout = (LinearLayout) childView;
+    /**
+     * Update the cardView with the given title and icon
+     * @param cardView one of the cardView buttons on main activity
+     * @param title
+     * @param icon the icon name in drawable, e.g. "ic_church"
+     */
+    private void updateCardView(CardView cardView, String title, String icon){
+        if (cardView == null) return;
+        // cardView doesn't have any child, return
+        if (cardView.getChildCount() == 0) return;
 
-                            if (linearLayout.getChildCount() >= 2) {
-                                View imageView = linearLayout.getChildAt(0);
-                                View textView = linearLayout.getChildAt(1);
+        // first child is a LinearLayout
+        View childView = cardView.getChildAt(0);
 
-                                if (imageView instanceof ImageView && textView instanceof TextView) {
-                                    ImageView myImageView = (ImageView) imageView;
-                                    TextView myTextView = (TextView) textView;
-                                    myTextView.setText(gridCells.get(currentIndex).getTitle());
-                                    myImageView.setForeground(getDrawable(getResources().getIdentifier(gridCells.get(currentIndex).getIcon(), "drawable", getPackageName())));
-                                }
-                            }
-                        }
-                    }
-                    currentIndex++;
-                }
-            } else if (gridCells.get(i).get_id() == 4) {
-                if (cardView4 != null) {
-                    if (cardView4.getChildCount() > 0) {
-                        // first child is a LinearLayout
-                        View childView = cardView4.getChildAt(0);
+        if (childView instanceof LinearLayout) {
+            LinearLayout linearLayout = (LinearLayout) childView;
 
-                        if (childView instanceof LinearLayout) {
-                            LinearLayout linearLayout = (LinearLayout) childView;
+            if (linearLayout.getChildCount() >= 2) {
+                View imageView = linearLayout.getChildAt(0);
+                View textView = linearLayout.getChildAt(1);
 
-                            if (linearLayout.getChildCount() >= 2) {
-                                View imageView = linearLayout.getChildAt(0);
-                                View textView = linearLayout.getChildAt(1);
-
-                                if (imageView instanceof ImageView && textView instanceof TextView) {
-                                    ImageView myImageView = (ImageView) imageView;
-                                    TextView myTextView = (TextView) textView;
-                                    myTextView.setText(gridCells.get(currentIndex).getTitle());
-                                    myImageView.setForeground(getDrawable(getResources().getIdentifier(gridCells.get(currentIndex).getIcon(), "drawable", getPackageName())));
-                                }
-                            }
-                        }
-                    }
-                    currentIndex++;
+                if (imageView instanceof ImageView && textView instanceof TextView) {
+                    ImageView myImageView = (ImageView) imageView;
+                    TextView myTextView = (TextView) textView;
+                    myTextView.setText(title);
+                    myImageView.setForeground(getDrawable(getResources()
+                            .getIdentifier(icon, "drawable", getPackageName())));
                 }
             }
         }

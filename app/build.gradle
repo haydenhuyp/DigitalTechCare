@@ -50,10 +50,10 @@ dependencies {
     implementation 'com.github.ZEGOCLOUD:zego_uikit_signaling_plugin_android:+'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     // for youtube data api
-    implementation 'com.google.api-client:google-api-client:1.31.3'
+    implementation 'com.google.api-client:google-api-client:2.2.0'
     implementation 'com.google.apis:google-api-services-youtube:v3-rev20231011-2.0.0'
     implementation group: 'com.google.api-client', name: 'google-api-client-jackson2', version: '1.28.1'
     implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
@@ -72,10 +72,8 @@ dependencies {
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics'
     implementation "com.google.firebase:firebase-firestore"
-    implementation 'androidx.navigation:navigation-fragment:2.5.3'
-    implementation 'androidx.navigation:navigation-ui:2.5.3'
-
-
+    implementation 'androidx.navigation:navigation-fragment:2.7.6'
+    implementation 'androidx.navigation:navigation-ui:2.7.6'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
