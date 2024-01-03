@@ -212,83 +212,6 @@ public class MainActivity extends AppCompatActivity {
             overlayingNotification.setVisibility(View.GONE);
         });
 
-        /*
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("gridCells")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // process each document (gridCell data) and add to the gridCells list
-                                String icon = document.getString("icon");
-                                int _id = document.get("_id", Integer.TYPE).intValue();
-                                String title = document.getString("title");
-                                String actionParameter = document.getString("actionParameter");
-                                String action = document.getString("action");
-                                GridCell gridCell = new GridCell(_id, title, icon, actionParameter, action);
-                                gridCells.add(gridCell);
-                            }
-                            updateGridCells();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    for (int i = 0; i < gridCells.size(); i++) {
-                                        Log.w(TAG, "gridCell: " + gridCells.get(i).toString());
-                                    }
-                                    // put updateGridCells() here if it doesn't work
-
-                                }
-                            });
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-
-        final DocumentReference docRef = db.collection("gridCells").document("grid3");
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    db.collection("gridCells")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            // process each document (gridCell data) and update to the gridCells list
-                                            String icon = document.getString("icon");
-                                            int _id = document.get("_id", Integer.TYPE).intValue();
-                                            String title = document.getString("title");
-                                            String actionParameter = document.getString("actionParameter");
-                                            String action = document.getString("action");
-                                            GridCell gridCell = new GridCell(_id, title, icon, actionParameter, action);
-                                            if (gridCell.get_id() == 3) {
-                                                gridCells.set(currentIndexOfGrid3InGridCells, gridCell);
-                                            } else if (gridCell.get_id() == 4) {
-                                                gridCells.set(currentIndexOfGrid4InGridCells, gridCell);
-                                            }
-                                        }
-                                        updateGridCells();
-                                    } else {
-                                        Log.w(TAG, "Error getting documents.", task.getException());
-                                    }
-                                }
-                            });
-                } else {
-                    Log.d(TAG, "Current data: null");
-                }
-            }
-        });*/
         /* Update the grid cells with the data from Firebase */
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("gridCells")
@@ -396,6 +319,8 @@ public class MainActivity extends AppCompatActivity {
                     ImageView myImageView = (ImageView) imageView;
                     TextView myTextView = (TextView) textView;
                     myTextView.setText(title);
+                    // if resource not found, keep the current icon
+                    if (getResources().getIdentifier(icon, "drawable", getPackageName()) == 0) return;
                     myImageView.setForeground(getDrawable(getResources()
                             .getIdentifier(icon, "drawable", getPackageName())));
                 }
@@ -404,8 +329,6 @@ public class MainActivity extends AppCompatActivity {
     }
     private void startCallInvitationService(){
         ZegoUIKitPrebuiltCallInvitationConfig callInvitationConfig = new ZegoUIKitPrebuiltCallInvitationConfig();
-         // not sure why this isn't working, maybe from Zegocloud's side
-         // callInvitationConfig.notifyWhenAppRunningInBackgroundOrQuit = true;
 
         callInvitationConfig.provider = new ZegoUIKitPrebuiltCallConfigProvider() {
             @Override
