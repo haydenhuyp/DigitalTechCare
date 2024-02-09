@@ -1,5 +1,7 @@
 package com.techcare.techcare;
 
+import android.util.Log;
+
 import java.util.Random;
 
 public class DataUtility {
@@ -12,7 +14,6 @@ public class DataUtility {
     protected static final long APP_ID = 1283402199;
     protected static final String APP_SIGN = "8023cb1b92249d56467313a4e8d1ccd34c278b6e02f7fc550a8985a955eab013";
 
-    /*
     private static String generateUserID() {
         StringBuilder builder = new StringBuilder();
         Random random = new Random();
@@ -25,5 +26,4 @@ public class DataUtility {
         }
         return builder.toString();
     }
-    */
 }
