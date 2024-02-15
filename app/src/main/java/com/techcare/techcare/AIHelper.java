@@ -15,7 +15,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AIUtility {
+public class AIHelper {
     /*
      * This class is for using cloud AI services.
      */
@@ -62,9 +62,9 @@ public class AIUtility {
 
     public static void execute(){
         try {
-            AIUtility request = new AIUtility();
+            AIHelper request = new AIHelper();
             String response = request.Post();
-            APIResponse apiResponse = new Gson().fromJson(response, APIResponse.class);
+            ChatGPTResponse apiResponse = new Gson().fromJson(response, ChatGPTResponse.class);
             apiResponse.jsonString = prettify(response);
             Log.d("GPTAPI", apiResponse.jsonString);
         } catch (Exception e) {
@@ -72,7 +72,7 @@ public class AIUtility {
         }
     }
 
-    private class APIResponse{
+    private class ChatGPTResponse{
         private String id;
         private String object;
         private int created;

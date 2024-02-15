@@ -163,14 +163,14 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
-                    android:foreground="@drawable/ic_schedule"
+                    android:foreground="@drawable/ic_sudoku"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Schedule"
+                    android:text="Game"
                     android:textColor="@color/black"
                     android:textSize="40sp"
                     android:textStyle="bold" />
@@ -211,7 +211,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"
-                    android:text="Dec 01, 2023. 10:10 AM"></TextView>
+                    android:text="@string/CurrentDateTime"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -227,7 +227,7 @@
         </androidx.cardview.widget.CardView>
     </GridLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/overlayingNotification"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -254,5 +254,48 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/charlotte" />
+    </LinearLayout>-->
+    <LinearLayout
+        android:id="@+id/overlayingNotification"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp">
+        <TextView
+            android:id="@+id/txtHeaderOverlayingNotification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Tap to Answer"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="60sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/txtMainHeaderOverlayingNotification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Message from Lisa"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="60sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/txtOverlayingNotification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Do you want something to drink?"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="60sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 </RelativeLayout>

@@ -18,7 +18,6 @@ import com.google.api.client.json.JsonFactory;
         import java.util.Collections;
 
 public class YoutubeUtility {
-    private static final String API_KEY = "AIzaSyAVd2m5rqy4WBsjq7uZS8xt4BRuueQh1Qw";
     private static final String APPLICATION_NAME = "Digital Tech Care";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
@@ -49,7 +48,7 @@ public class YoutubeUtility {
         YouTube.Search.List request = youtubeService.search()
                 .list(Collections.singletonList("snippet"));
         SearchListResponse response = request.setChannelId(channelId)
-                .setKey(API_KEY)
+                .setKey(DataUtility.YOUTUBE_API_KEY)
                 .setMaxResults(3L)
                 .setOrder("date")
                 .execute();

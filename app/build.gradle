@@ -74,8 +74,11 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore"
     implementation 'androidx.navigation:navigation-fragment:2.7.6'
     implementation 'androidx.navigation:navigation-ui:2.7.6'
+    implementation "com.google.firebase:firebase-inappmessaging-display"
 
-    /* For Azure Translation & AI Utiliti */
+    /* For Google Cloud Platform APIs */
+
+    /* For Azure Translation & AI Utility */
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '5.0.0-alpha.12'
 
     testImplementation 'junit:junit:4.13.2'

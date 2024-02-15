@@ -20,11 +20,13 @@ public class GameActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         findViewById(R.id.btnHomeGame).setOnClickListener(v -> {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            // go back to home
+            finish();
         });
 
         ArrayList<Drawable> images = new ArrayList<Drawable>();
+        images.add(getResources().getDrawable(R.drawable.crossword1));
+        images.add(getResources().getDrawable(R.drawable.crossword2));
         images.add(getResources().getDrawable(R.drawable.sudoku1));
         images.add(getResources().getDrawable(R.drawable.sudoku2));
         images.add(getResources().getDrawable(R.drawable.sudoku3));
@@ -40,7 +42,7 @@ public class GameActivity extends AppCompatActivity {
             ImageView imageView = findViewById(R.id.imageViewGame);
 
             currentGameId++;
-            if (currentGameId > 10) {
+            if (currentGameId >= 11) {
                 currentGameId = 1;
             }
             // set image

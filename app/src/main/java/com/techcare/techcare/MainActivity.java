@@ -13,11 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.os.Handler;
@@ -26,13 +25,12 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.cardview.widget.CardView;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.zegocloud.uikit.plugin.invitation.ZegoInvitationType;
 import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
@@ -45,11 +43,11 @@ import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationS
 import com.zegocloud.uikit.prebuilt.call.invite.widget.ZegoSendCallInvitationButton;
 import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 import org.json.*;
 
@@ -60,10 +58,13 @@ public class MainActivity extends AppCompatActivity {
     private ZegoSendCallInvitationButton btnZegoCallSendInvitation;
     private StorageReference storageReference;
     private ImageView mainImgOverlayingNotification;
-    private TextView mainTextOverlayingNotification;
+    private TextView txtHeaderOverlayingNotification, txtMainHeaderOverlayingNotification, txtOverlayingNotification;
     private LinearLayout overlayingNotification;
     private Handler handler = new Handler(Looper.getMainLooper());
     private Bitmap menuImage;
+    private TextToSpeech textToSpeech;
+    private static final String TAP_TO_ANSWER_TRANSLATED = "탭하여 답장";
+    private static final String MESSAGE_FROM_LISA_TRANSLATED = "리사로부터 메시지가 도착했습니다";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         // get the latest mass video URL from YoutubeDataAPI
         new Thread(() -> {
-            try{
+            try {
                 String jsonString = YoutubeUtility.getLatestVideosFromChannel(DAILY_TV_MASS_CHANNEL_ID).toString();
                 JSONObject jsonObject = new JSONObject(jsonString);
                 JSONArray items = jsonObject.getJSONArray("items");
@@ -100,22 +101,27 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
-            }
-            catch (IOException | GeneralSecurityException | JSONException e) {
+            } catch (IOException | GeneralSecurityException | JSONException e) {
                 Log.e(TAG, "Error getting latest mass video URL from YoutubeDataAPI: ", e);
             }
         }).start();
-        mainImgOverlayingNotification = findViewById(R.id.mainImgOverlayingNotification);
-        mainTextOverlayingNotification = findViewById(R.id.mainTextOverlayingNotification);
+
+        /* Overlaying notification */
+        // mainImgOverlayingNotification = findViewById(R.id.mainImgOverlayingNotification);
+        txtHeaderOverlayingNotification = findViewById(R.id.txtHeaderOverlayingNotification);
+        txtMainHeaderOverlayingNotification = findViewById(R.id.txtMainHeaderOverlayingNotification);
+        txtOverlayingNotification = findViewById(R.id.txtOverlayingNotification);
         overlayingNotification = findViewById(R.id.overlayingNotification);
-        mainImgOverlayingNotification.setVisibility(View.GONE);
-        mainTextOverlayingNotification.setVisibility(View.GONE);
-        overlayingNotification.setVisibility(View.GONE);
-        new Thread(() -> {
+
+        // mainImgOverlayingNotification.setVisibility(View.GONE);
+        hideOverlayingMessage();
+
+        /* This thread is for downloading the image from Firebase Storage and display as an overlaying img */
+        /*new Thread(() -> {
             // TODO: change this ImageID
             String imageID = "menu";
 
-            storageReference = FirebaseStorage.getInstance().getReference("images/" + imageID /*+ ".png"*/);
+            storageReference = FirebaseStorage.getInstance().getReference("images/" + imageID *//*+ ".png"*//*);
             final File localFile;
             try {
                 localFile = File.createTempFile("tempFile", ".png");
@@ -131,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             }).addOnFailureListener(e -> {
                 Toast.makeText(this, "Failed to download image: " + e, Toast.LENGTH_SHORT).show();
             });
-        }).start();
+        }).start();*/
 
         // Date time format: Dec 01, 2023. 10:10 AM
         handler.postDelayed(new Runnable() {
@@ -165,15 +171,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.cell4).setOnClickListener(v -> {
-            /*Intent intent = new Intent(this, GameActivity.class);
-            startActivity(intent);*/
-            if (menuImage != null) {
+            Intent intent = new Intent(this, GameActivity.class);
+            startActivity(intent);
+            /*if (menuImage != null) {
                 mainImgOverlayingNotification.setImageBitmap(menuImage);
                 overlayingNotification.setVisibility(View.VISIBLE);
                 mainImgOverlayingNotification.setVisibility(View.VISIBLE);
                 mainTextOverlayingNotification.setVisibility(View.VISIBLE);
-
-            }
+            }*/
         });
 
         findViewById(R.id.btn_weather).setOnClickListener(v -> {
@@ -182,8 +187,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /* The overlaying notification */
-        mainImgOverlayingNotification.setOnClickListener(v -> {
+        textToSpeech = new TextToSpeech(this, status -> {
+            if (status != TextToSpeech.ERROR) {
+                // change language to Korean - for testing only
+                textToSpeech.setLanguage(Locale.KOREAN);
+            }
+        });
+        overlayingNotification.setOnClickListener(v -> {
             overlayingNotification.setVisibility(View.GONE);
+            // read the text inside the notification using text to speech
+            textToSpeech.speak("You got a message from Lisa: " + txtOverlayingNotification.getText().toString(), TextToSpeech.QUEUE_FLUSH, null, null);
         });
 
         /* Update the grid cells with the data from Firebase */
@@ -239,6 +252,78 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Current data: null");
                     }
                 });
+
+        /* Pull latest message from
+            collection "messages", document "message" on firebase, read its "isShown" field
+             if false, show the message under "content" field and update "isShown"*/
+        db.collection("messages").document("message")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String message = task.getResult().getString("content");
+                        boolean isShown = task.getResult().getBoolean("isShown");
+                        if (!isShown) {
+                            new Thread(() -> {
+                                // String translatedMessage = TranslatorHelper.execute(message);
+                                String translatedMessage = VertexAIHelper.execute(message);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (translatedMessage.equals("")) {
+                                            return;
+                                        }
+                                        displayOverlayingMessage(translatedMessage);
+                                        // change txtHeaderOverlayingNotification to Korean
+                                        txtHeaderOverlayingNotification.setText(MESSAGE_FROM_LISA_TRANSLATED);
+                                        // change txtMainHeaderOverlayingNotification to Korean
+                                        txtMainHeaderOverlayingNotification.setText(TAP_TO_ANSWER_TRANSLATED);
+                                    }
+                                });
+                            }).start();
+                            task.getResult().getReference().update("isShown", true);
+                        }
+                    } else {
+                        Log.e(TAG, "Error getting message from Firebase: ", task.getException());
+                    }
+                });
+        /* Update the message every time the data in Firebase changes */
+        db.collection("messages").document("message")
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Log.e(TAG, "Firebase listen failed: ", error);
+                        return;
+                    }
+
+                    if (value != null) {
+                        db.collection("messages").document("message")
+                                .get()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        String message = task.getResult().getString("content");
+                                        boolean isShown = task.getResult().getBoolean("isShown");
+                                        if (!isShown) {
+                                            new Thread(() -> {
+                                                // String translatedMessage = TranslatorHelper.execute(message);
+                                                String translatedMessage = VertexAIHelper.execute(message);
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        if (translatedMessage.equals("")) {
+                                                            return;
+                                                        }
+                                                        displayOverlayingMessage(translatedMessage);
+                                                    }
+                                                });
+                                            }).start();
+                                        }
+                                    } else {
+                                        Log.e(TAG, "Error getting updated message from Firebase: ", task.getException());
+                                    }
+                                });
+                    } else {
+                        Log.d(TAG, "Current data: null");
+                    }
+                });
     }
 
     /**
@@ -250,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
         CardView cardView3 = findViewById(R.id.cell3);
         CardView cardView4 = findViewById(R.id.cell4);
         for (int i = 0; i < gridCells.size(); i++) {
-            switch (gridCells.get(i).get_id()){
+            switch (gridCells.get(i).get_id()) {
                 case 1:
                     /* Hard-coded text to fix the \n issue - Firebase could not process \n correctly */
                     updateCardView(cardView1, "Community\nRoom", gridCells.get(i).getIcon());
@@ -270,11 +355,12 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Update the cardView with the given title and icon
+     *
      * @param cardView one of the cardView buttons on main activity
      * @param title
-     * @param icon the icon name in drawable, e.g. "ic_church"
+     * @param icon     the icon name in drawable, e.g. "ic_church"
      */
-    private void updateCardView(CardView cardView, String title, String icon){
+    private void updateCardView(CardView cardView, String title, String icon) {
         if (cardView == null) return;
         // cardView doesn't have any child, return
         if (cardView.getChildCount() == 0) return;
@@ -294,14 +380,16 @@ public class MainActivity extends AppCompatActivity {
                     TextView myTextView = (TextView) textView;
                     myTextView.setText(title);
                     // if resource not found, keep the current icon
-                    if (getResources().getIdentifier(icon, "drawable", getPackageName()) == 0) return;
+                    if (getResources().getIdentifier(icon, "drawable", getPackageName()) == 0)
+                        return;
                     myImageView.setForeground(getDrawable(getResources()
                             .getIdentifier(icon, "drawable", getPackageName())));
                 }
             }
         }
     }
-    private void startCallInvitationService(){
+
+    private void startCallInvitationService() {
         ZegoUIKitPrebuiltCallInvitationConfig callInvitationConfig = new ZegoUIKitPrebuiltCallInvitationConfig();
 
         callInvitationConfig.provider = new ZegoUIKitPrebuiltCallConfigProvider() {
@@ -333,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
         ZegoUIKitPrebuiltCallInvitationService.init(getApplication(), APP_ID, APP_SIGN, currentUserID, currentUserName, callInvitationConfig);
     }
 
-    private void initSendCallInvitationButton(){
+    private void initSendCallInvitationButton() {
         Context context = getApplicationContext();
 
         btnZegoCallSendInvitation = new ZegoSendCallInvitationButton(context);
@@ -351,5 +439,22 @@ public class MainActivity extends AppCompatActivity {
         handler.removeCallbacksAndMessages(null);
         ZegoUIKitPrebuiltCallInvitationService.unInit();
         super.onDestroy();
+    }
+
+    /* In app message */
+    private void displayOverlayingMessage(String message) {
+        overlayingNotification.setVisibility(View.VISIBLE);
+        txtHeaderOverlayingNotification.setVisibility(View.VISIBLE);
+        txtMainHeaderOverlayingNotification.setVisibility(View.VISIBLE);
+        txtOverlayingNotification.setVisibility(View.VISIBLE);
+
+        txtOverlayingNotification.setText(message);
+    }
+
+    public void hideOverlayingMessage() {
+        overlayingNotification.setVisibility(View.GONE);
+        txtHeaderOverlayingNotification.setVisibility(View.GONE);
+        txtMainHeaderOverlayingNotification.setVisibility(View.GONE);
+        txtOverlayingNotification.setVisibility(View.GONE);
     }
 }

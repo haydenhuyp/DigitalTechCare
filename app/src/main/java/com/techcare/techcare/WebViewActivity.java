@@ -50,8 +50,7 @@ public class WebViewActivity extends AppCompatActivity {
             // set back the volume to the previous level
             AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            finish();
         });
 
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
