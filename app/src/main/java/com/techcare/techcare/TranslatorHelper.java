@@ -18,6 +18,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
+/* For calling the Google Cloud Translation API. */
 public class TranslatorHelper{
 
     // Instantiates the OkHttpClient.

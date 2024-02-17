@@ -6,4 +6,8 @@
     <color name="primary">#42B3E6</color>
     <color name="red">#F20808</color>
     <color name="grey">#FF665D5D</color>
+    <color name="celadon">#9BC995</color>
+    <color name="true_blue">#5171A5</color>
+
+    <color name="google_sign_in_button_bg_color">#4285F4</color>
 </resources>

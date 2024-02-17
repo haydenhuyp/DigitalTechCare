@@ -12,7 +12,8 @@
           "package_name": "com.techcare.techcare"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCijimnELi3ZmfBVcYpfuG2nWc2U6OREac"

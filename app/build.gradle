@@ -77,8 +77,9 @@ dependencies {
     implementation "com.google.firebase:firebase-inappmessaging-display"
 
     /* For Google Cloud Platform APIs */
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
 
-    /* For Azure Translation & AI Utility */
+    /* For Making HTTP Request */
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '5.0.0-alpha.12'
 
     testImplementation 'junit:junit:4.13.2'

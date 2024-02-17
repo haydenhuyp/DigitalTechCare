@@ -262,10 +262,9 @@
         android:gravity="center"
         android:orientation="vertical"
         android:background="@color/white"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="50dp">
+        android:layout_margin="80dp"
+        android:visibility="gone"
+        >
         <TextView
             android:id="@+id/txtHeaderOverlayingNotification"
             android:layout_width="match_parent"
@@ -276,11 +275,15 @@
             android:textColor="@color/black"
             android:textSize="60sp"
             android:textStyle="bold" />
+        <View
+            android:layout_width="400dp"
+            android:layout_height="10dp"
+            android:background="@color/true_blue"
+            android:layout_margin="20dp"/>
         <TextView
             android:id="@+id/txtMainHeaderOverlayingNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:text="Message from Lisa"
             android:textAlignment="center"
             android:textColor="@color/black"
@@ -290,12 +293,11 @@
             android:id="@+id/txtOverlayingNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_margin="30dp"
             android:text="Do you want something to drink?"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="60sp"
-            android:textStyle="bold" />
+            android:textSize="60sp" />
 
     </LinearLayout>
 </RelativeLayout>

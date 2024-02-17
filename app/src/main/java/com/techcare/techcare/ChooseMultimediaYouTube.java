@@ -23,7 +23,7 @@ import java.util.Locale;
 
 public class ChooseMultimediaYouTube extends AppCompatActivity {
     private Button btnDatePickerChooseMultimediaYoutube;
-    private String timeString = "10:10 am, DEC 1 2023";
+    private String timeString = "10:10 am, FEB 16 2023";
     TextInputEditText txtVideolink;
     CheckBox chkTurnOffAfter;
     CheckBox chkTurnOnAuto;

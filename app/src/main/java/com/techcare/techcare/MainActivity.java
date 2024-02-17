@@ -311,6 +311,10 @@ public class MainActivity extends AppCompatActivity {
                                                         if (translatedMessage.equals("")) {
                                                             return;
                                                         }
+                                                        // change txtHeaderOverlayingNotification to Korean
+                                                        txtHeaderOverlayingNotification.setText(MESSAGE_FROM_LISA_TRANSLATED);
+                                                        // change txtMainHeaderOverlayingNotification to Korean
+                                                        txtMainHeaderOverlayingNotification.setText(TAP_TO_ANSWER_TRANSLATED);
                                                         displayOverlayingMessage(translatedMessage);
                                                     }
                                                 });
