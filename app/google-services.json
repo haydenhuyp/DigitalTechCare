@@ -13,6 +13,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "609901730744-3m96rtt1j1em9nkgps2s37lokt30n6rr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techcare.techcare",
+            "certificate_hash": "a89d6916f37223260abcb806ffc9ac50b9733ca2"
+          }
+        }
       ],
       "api_key": [
         {

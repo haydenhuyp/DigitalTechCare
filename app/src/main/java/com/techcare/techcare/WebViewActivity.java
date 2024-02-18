@@ -20,6 +20,7 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Objects;
 
 public class WebViewActivity extends AppCompatActivity {
     private WebView webView;
@@ -27,7 +28,7 @@ public class WebViewActivity extends AppCompatActivity {
     private boolean isMuted = false;
     protected String latestMassVideoURL;
     protected String currentURL;
-    private final String BACK_UP_URL = "https://youtu.be/juz0RAfULOU";
+    private final String BACK_UP_URL = "https://www.youtube.com/watch?v=sVVxF0mIfUI";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class WebViewActivity extends AppCompatActivity {
 
         if (extras != null){
             latestMassVideoURL = (extras.getString("latestMassVideoURL") != null) ? extras.getString("latestMassVideoURL") : BACK_UP_URL;
-            currentURL = (extras.getString("youtube_url")!="") ? extras.getString("youtube_url") : latestMassVideoURL;
+            currentURL = (extras.getString("currentURL") != null) ? extras.getString("currentURL") : latestMassVideoURL;
         }
         webView = findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);

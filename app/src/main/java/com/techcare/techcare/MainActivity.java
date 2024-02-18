@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler(Looper.getMainLooper());
     private Bitmap menuImage;
     private TextToSpeech textToSpeech;
-    private static final String TAP_TO_ANSWER_TRANSLATED = "탭하여 답장";
-    private static final String MESSAGE_FROM_LISA_TRANSLATED = "리사로부터 메시지가 도착했습니다";
+    private static final String TAP_TO_ANSWER_TRANSLATED = "Tap To Hear"/*"탭하여 답장"*/;
+    private static final String MESSAGE_FROM_LISA_TRANSLATED = "Message From Vitalis" /*"리사로부터 메시지가 도착했습니다"*/;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,8 +182,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btn_weather).setOnClickListener(v -> {
-            Intent intent = new Intent(this, StorageActivity.class);
-            startActivity(intent);
+            /*Intent intent = new Intent(this, StorageActivity.class);
+            startActivity(intent);*/
         });
 
         /* The overlaying notification */
@@ -196,11 +196,20 @@ public class MainActivity extends AppCompatActivity {
         overlayingNotification.setOnClickListener(v -> {
             overlayingNotification.setVisibility(View.GONE);
             // read the text inside the notification using text to speech
-            textToSpeech.speak("You got a message from Lisa: " + txtOverlayingNotification.getText().toString(), TextToSpeech.QUEUE_FLUSH, null, null);
+            textToSpeech.speak("You got a message from Vitalis: " + txtOverlayingNotification.getText().toString(), TextToSpeech.QUEUE_FLUSH, null, null);
         });
 
-        /* Update the grid cells with the data from Firebase */
+        /* Get GCP_ACCESS_TOKEN from Firebase */
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("temp").document("gcp_access_token")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DataUtility.GCP_ACCESS_TOKEN = task.getResult().getString("access_token");
+                    }
+                });
+
+        /* Update the grid cells with the data from Firebase */
         db.collection("gridCells")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -255,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Pull latest message from
             collection "messages", document "message" on firebase, read its "isShown" field
-             if false, show the message under "content" field and update "isShown"*/
+             if false, show the message under "content" field and update "isShown" */
         db.collection("messages").document("message")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -279,8 +288,8 @@ public class MainActivity extends AppCompatActivity {
                                         txtMainHeaderOverlayingNotification.setText(TAP_TO_ANSWER_TRANSLATED);
                                     }
                                 });
+                                task.getResult().getReference().update("isShown", true);
                             }).start();
-                            task.getResult().getReference().update("isShown", true);
                         }
                     } else {
                         Log.e(TAG, "Error getting message from Firebase: ", task.getException());
@@ -311,13 +320,14 @@ public class MainActivity extends AppCompatActivity {
                                                         if (translatedMessage.equals("")) {
                                                             return;
                                                         }
+                                                        displayOverlayingMessage(translatedMessage);
                                                         // change txtHeaderOverlayingNotification to Korean
                                                         txtHeaderOverlayingNotification.setText(MESSAGE_FROM_LISA_TRANSLATED);
                                                         // change txtMainHeaderOverlayingNotification to Korean
                                                         txtMainHeaderOverlayingNotification.setText(TAP_TO_ANSWER_TRANSLATED);
-                                                        displayOverlayingMessage(translatedMessage);
                                                     }
                                                 });
+                                                task.getResult().getReference().update("isShown", true);
                                             }).start();
                                         }
                                     } else {

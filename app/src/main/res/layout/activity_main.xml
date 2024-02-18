@@ -263,7 +263,6 @@
         android:orientation="vertical"
         android:background="@color/white"
         android:layout_margin="80dp"
-        android:visibility="gone"
         >
         <TextView
             android:id="@+id/txtHeaderOverlayingNotification"
@@ -284,7 +283,7 @@
             android:id="@+id/txtMainHeaderOverlayingNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Message from Lisa"
+            android:text="Message from Vitalis"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="60sp"
@@ -294,7 +293,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
-            android:text="Do you want something to drink?"
+            android:text="Hello"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="60sp" />
