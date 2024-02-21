@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class StorageActivity extends AppCompatActivity {
-
     Uri imageUri;
     StorageReference storageReference;
     ImageView imageView;

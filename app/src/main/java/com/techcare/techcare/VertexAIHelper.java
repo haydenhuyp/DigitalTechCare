@@ -23,7 +23,6 @@ public class VertexAIHelper {
     // This function performs a POST request.
     public String Post(String prompt) throws IOException {
         MediaType mediaType = MediaType.parse("application/json");
-        // TODO: hard-coded text
         prompt = "Translate this message to Korean: " + prompt;
         String instance =
                 "{ \"prompt\": " + "\"" + prompt + "\"}";

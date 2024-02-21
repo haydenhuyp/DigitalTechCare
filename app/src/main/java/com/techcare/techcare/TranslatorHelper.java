@@ -62,7 +62,6 @@ public class TranslatorHelper{
             TranslatorResponse translatorResponse = gson.fromJson(response, TranslatorResponse.class);
             return translatorResponse.data.translations[0].translatedText;
         } catch (Exception e) {
-            Log.w("Translator API", "Error: " + e.getMessage());
             return "";
         }
     }

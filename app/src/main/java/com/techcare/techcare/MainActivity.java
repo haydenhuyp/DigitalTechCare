@@ -2,17 +2,11 @@ package com.techcare.techcare;
 
 import static androidx.constraintlayout.widget.ConstraintLayoutStates.TAG;
 
-import static com.techcare.techcare.DataUtility.APP_ID;
-import static com.techcare.techcare.DataUtility.APP_SIGN;
-import static com.techcare.techcare.DataUtility.currentUserID;
-import static com.techcare.techcare.DataUtility.currentUserName;
-import static com.techcare.techcare.DataUtility.targetUserID;
-import static com.techcare.techcare.DataUtility.targetUserName;
+import static com.techcare.techcare.DataUtility.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,19 +46,15 @@ import java.util.Locale;
 import org.json.*;
 
 public class MainActivity extends AppCompatActivity {
-    private static volatile ArrayList<GridCell> gridCells = new ArrayList<GridCell>();
+    private static volatile ArrayList<GridCell> gridCells = new ArrayList<>();
     protected String latestMassVideoURL = "";
-    private final String DAILY_TV_MASS_CHANNEL_ID = "UCi6JtCVy4XKu4BSG-AE2chg";
     private ZegoSendCallInvitationButton btnZegoCallSendInvitation;
-    private StorageReference storageReference;
-    private ImageView mainImgOverlayingNotification;
     private TextView txtHeaderOverlayingNotification, txtMainHeaderOverlayingNotification, txtOverlayingNotification;
     private LinearLayout overlayingNotification;
     private Handler handler = new Handler(Looper.getMainLooper());
-    private Bitmap menuImage;
     private TextToSpeech textToSpeech;
-    private static final String TAP_TO_ANSWER_TRANSLATED = "Tap To Hear"/*"탭하여 답장"*/;
-    private static final String MESSAGE_FROM_LISA_TRANSLATED = "Message From Vitalis" /*"리사로부터 메시지가 도착했습니다"*/;
+    private static final String TAP_TO_ANSWER_TRANSLATED = "Tap To Hear";
+    private static final String MESSAGE_FROM_LISA_TRANSLATED = "Message From Vitalis";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,29 +106,6 @@ public class MainActivity extends AppCompatActivity {
         // mainImgOverlayingNotification.setVisibility(View.GONE);
         hideOverlayingMessage();
 
-        /* This thread is for downloading the image from Firebase Storage and display as an overlaying img */
-        /*new Thread(() -> {
-            // TODO: change this ImageID
-            String imageID = "menu";
-
-            storageReference = FirebaseStorage.getInstance().getReference("images/" + imageID *//*+ ".png"*//*);
-            final File localFile;
-            try {
-                localFile = File.createTempFile("tempFile", ".png");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            storageReference.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
-                menuImage = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                mainImgOverlayingNotification.setImageBitmap(menuImage);
-                mainImgOverlayingNotification.setVisibility(View.VISIBLE);
-                mainTextOverlayingNotification.setVisibility(View.VISIBLE);
-                overlayingNotification.setVisibility(View.VISIBLE);
-            }).addOnFailureListener(e -> {
-                Toast.makeText(this, "Failed to download image: " + e, Toast.LENGTH_SHORT).show();
-            });
-        }).start();*/
-
         // Date time format: Dec 01, 2023. 10:10 AM
         handler.postDelayed(new Runnable() {
             @Override
@@ -173,23 +140,12 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.cell4).setOnClickListener(v -> {
             Intent intent = new Intent(this, GameActivity.class);
             startActivity(intent);
-            /*if (menuImage != null) {
-                mainImgOverlayingNotification.setImageBitmap(menuImage);
-                overlayingNotification.setVisibility(View.VISIBLE);
-                mainImgOverlayingNotification.setVisibility(View.VISIBLE);
-                mainTextOverlayingNotification.setVisibility(View.VISIBLE);
-            }*/
-        });
-
-        findViewById(R.id.btn_weather).setOnClickListener(v -> {
-            /*Intent intent = new Intent(this, StorageActivity.class);
-            startActivity(intent);*/
         });
 
         /* The overlaying notification */
         textToSpeech = new TextToSpeech(this, status -> {
             if (status != TextToSpeech.ERROR) {
-                // change language to Korean - for testing only
+                // change language to Korean
                 textToSpeech.setLanguage(Locale.KOREAN);
             }
         });
@@ -199,13 +155,15 @@ public class MainActivity extends AppCompatActivity {
             textToSpeech.speak("You got a message from Vitalis: " + txtOverlayingNotification.getText().toString(), TextToSpeech.QUEUE_FLUSH, null, null);
         });
 
-        /* Get GCP_ACCESS_TOKEN from Firebase */
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("temp").document("gcp_access_token")
+        db.collection("temp").document("words")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        DataUtility.GCP_ACCESS_TOKEN = task.getResult().getString("access_token");
+                        GCP_ACCESS_TOKEN = task.getResult().getString("gcp_access_token");
+                        YOUTUBE_API_KEY = task.getResult().getString("youtube_api_key");
+                        APP_ID = task.getResult().getLong("zegocloud_app_id");
+                        APP_SIGN = task.getResult().getString("zegocloud_app_sign");
                     }
                 });
 
@@ -236,30 +194,24 @@ public class MainActivity extends AppCompatActivity {
                         Log.e(TAG, "Firebase listen failed: ", error);
                         return;
                     }
-
-                    if (value != null) {
-                        db.collection("gridCells")
-                                .get()
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            // process each document (gridCell data) and update to the gridCells list
-                                            String icon = document.getString("icon");
-                                            int _id = document.get("_id", Integer.TYPE).intValue();
-                                            String title = document.getString("title");
-                                            String actionParameter = document.getString("actionParameter");
-                                            String action = document.getString("action");
-                                            GridCell gridCell = new GridCell(_id, title, icon, actionParameter, action);
-                                            gridCells.set(gridCell.get_id() - 1, gridCell);
-                                        }
-                                        updateGridCells();
-                                    } else {
-                                        Log.e(TAG, "Error getting updated data from Firebase: ", task.getException());
+                    if (value == null) return;
+                    db.collection("gridCells")
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        // process each document (gridCell data) and update to the gridCells list
+                                        String icon = document.getString("icon");
+                                        int _id = document.get("_id", Integer.TYPE).intValue();
+                                        String title = document.getString("title");
+                                        String actionParameter = document.getString("actionParameter");
+                                        String action = document.getString("action");
+                                        GridCell gridCell = new GridCell(_id, title, icon, actionParameter, action);
+                                        gridCells.set(gridCell.get_id() - 1, gridCell);
                                     }
-                                });
-                    } else {
-                        Log.d(TAG, "Current data: null");
-                    }
+                                    updateGridCells();
+                                }
+                            });
                 });
 
         /* Pull latest message from
@@ -302,41 +254,35 @@ public class MainActivity extends AppCompatActivity {
                         Log.e(TAG, "Firebase listen failed: ", error);
                         return;
                     }
-
-                    if (value != null) {
-                        db.collection("messages").document("message")
-                                .get()
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        String message = task.getResult().getString("content");
-                                        boolean isShown = task.getResult().getBoolean("isShown");
-                                        if (!isShown) {
-                                            new Thread(() -> {
-                                                // String translatedMessage = TranslatorHelper.execute(message);
-                                                String translatedMessage = VertexAIHelper.execute(message);
-                                                runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        if (translatedMessage.equals("")) {
-                                                            return;
-                                                        }
-                                                        displayOverlayingMessage(translatedMessage);
-                                                        // change txtHeaderOverlayingNotification to Korean
-                                                        txtHeaderOverlayingNotification.setText(MESSAGE_FROM_LISA_TRANSLATED);
-                                                        // change txtMainHeaderOverlayingNotification to Korean
-                                                        txtMainHeaderOverlayingNotification.setText(TAP_TO_ANSWER_TRANSLATED);
+                    if (value == null) return;
+                    db.collection("messages").document("message")
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    String message = task.getResult().getString("content");
+                                    boolean isShown = task.getResult().getBoolean("isShown");
+                                    if (!isShown) {
+                                        new Thread(() -> {
+                                            String translatedMessage = VertexAIHelper.execute(message);
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if (translatedMessage.equals("")) {
+                                                        return;
                                                     }
-                                                });
-                                                task.getResult().getReference().update("isShown", true);
-                                            }).start();
-                                        }
-                                    } else {
-                                        Log.e(TAG, "Error getting updated message from Firebase: ", task.getException());
+                                                    displayOverlayingMessage(translatedMessage);
+                                                    // change txtHeaderOverlayingNotification to Korean
+                                                    txtHeaderOverlayingNotification.setText(MESSAGE_FROM_LISA_TRANSLATED);
+                                                    // change txtMainHeaderOverlayingNotification to Korean
+                                                    txtMainHeaderOverlayingNotification.setText(TAP_TO_ANSWER_TRANSLATED);
+                                                }
+                                            });
+                                            task.getResult().getReference().update("isShown", true);
+                                        }).start();
                                     }
-                                });
-                    } else {
-                        Log.d(TAG, "Current data: null");
-                    }
+                                }
+                            });
+
                 });
     }
 
@@ -372,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param cardView one of the cardView buttons on main activity
      * @param title
-     * @param icon     the icon name in drawable, e.g. "ic_church"
+     * @param icon the icon name in drawable, e.g. "ic_church"
      */
     private void updateCardView(CardView cardView, String title, String icon) {
         if (cardView == null) return;
