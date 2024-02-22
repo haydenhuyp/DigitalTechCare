@@ -1,5 +1,7 @@
 # Digital Tech Care - Senior App
+![Digital Tech Care Logo](https://github.com/haydenhuyp/DigitalTechCare/assets/63182335/6faf9f28-52a5-482a-8ec2-829f26d7e5ed)
 > No more digital barriers
+
 
 Project Website: [digitaltechcare.tech](https://digitaltechcare.tech/)
 ## App Info
