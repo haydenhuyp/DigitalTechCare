@@ -19,6 +19,12 @@ A few features require Wi-Fi connection.
 2. Install on an Android tablet device (make sure you enable "Install unknown apps" in your settings)
 3. Run the app
 
+## How to run the code in Android Studio?
+Send an email to info@digitaltechcare.tech to obtain API Keys
+1. Download Android Studio
+2. Create a virtual tablet device
+3. Click on Run
+
 ![Alt text](https://forthebadge.com/images/badges/made-with-java.png)
 ![Alt text](https://forthebadge.com/images/badges/built-for-android.png)
 ![Alt text](https://forthebadge.com/images/badges/built-with-love.png)
