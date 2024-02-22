@@ -13,7 +13,7 @@ This repository houses the application tailored for **senior users**.
 Our project aims to bridge the digital divide for seniors and individuals with disabilities, facilitating their engagement with digital technology for entertainment, learning, and communication. By developing two mobile applications—one tailored for direct user interaction with high-visibility features and one for caregivers to customize functionalities—we enhance digital inclusivity and support mental health through connectivity
 
 ## How to install?
-This app is optimized for use on Android tablet devices.
+This app is optimized for use on Android tablet devices (works best for HD resolution).
 A few features require Wi-Fi connection.
 1. Download [this APK](https://drive.google.com/file/d/1PFAu9-1z4rZn_uMqeKmUqedgG4haHmcE/view?usp=sharing).
 2. Install on an Android tablet device (make sure you enable "Install unknown apps" in your settings)
