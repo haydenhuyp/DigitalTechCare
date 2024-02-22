@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             } catch (IOException | GeneralSecurityException | JSONException e) {
-                Log.e(TAG, "Error getting latest mass video URL from YoutubeDataAPI: ", e);
+                Log.e(TAG, "Error getting latest mass video URL from YoutubeDataAPI: ", e.getCause());
             }
         }).start();
 
@@ -161,9 +161,6 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         GCP_ACCESS_TOKEN = task.getResult().getString("gcp_access_token");
-                        YOUTUBE_API_KEY = task.getResult().getString("youtube_api_key");
-                        APP_ID = task.getResult().getLong("zegocloud_app_id");
-                        APP_SIGN = task.getResult().getString("zegocloud_app_sign");
                     }
                 });
 

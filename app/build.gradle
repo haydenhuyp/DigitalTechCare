@@ -52,6 +52,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
     // for youtube data api
     implementation 'com.google.api-client:google-api-client:2.2.0'
     implementation 'com.google.apis:google-api-services-youtube:v3-rev20231011-2.0.0'
@@ -72,8 +73,8 @@ dependencies {
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics'
     implementation "com.google.firebase:firebase-firestore"
-    implementation 'androidx.navigation:navigation-fragment:2.7.6'
-    implementation 'androidx.navigation:navigation-ui:2.7.6'
+    implementation 'androidx.navigation:navigation-fragment:2.7.7'
+    implementation 'androidx.navigation:navigation-ui:2.7.7'
     implementation "com.google.firebase:firebase-inappmessaging-display"
 
     /* For Google Cloud Platform APIs */

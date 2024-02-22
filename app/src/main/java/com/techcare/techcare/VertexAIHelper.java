@@ -60,7 +60,7 @@ public class VertexAIHelper {
             /* Return the content of the response if it is safe */
             return isResponseSafe(vertexAIResponse) ? vertexAIResponse.predictions[0].content : "";
         } catch (Exception e) {
-            Log.w("GPTAPI", "Error: " + e.getMessage());
+            Log.w("Vertex AI", "Error: " + e.getMessage());
             return "";
         }
     }
