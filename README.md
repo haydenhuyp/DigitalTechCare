@@ -27,13 +27,6 @@ Send an email to info@digitaltechcare.tech to obtain API Keys
 5. Create a virtual tablet device
 6. Click on "Run" (or Shift + F10 on Windows devices)
 
-## Founders
-| ![ceo](https://github.com/haydenhuyp/DigitalTechCare/assets/63182335/e74a83e0-599a-4cb0-804c-e65f7fdf1767) | ![cto](https://github.com/haydenhuyp/DigitalTechCare/assets/63182335/7eb01569-809a-4b08-bf5d-62b284dbd86e) | ![coo](https://github.com/haydenhuyp/DigitalTechCare/assets/63182335/451ecc9c-c934-43d9-b3e5-a0f6c30d88c0) |
-|  --------  |  -------  |-------  |
-| **[Duy Nguyen](https://www.linkedin.com/in/duynguyen1998/)** | **[Hayden Pham](https://github.com/haydenhuyp)** | **[Vitalis Nguyen](https://www.linkedin.com/in/tuc-thuy-anh-nguyen-vitalis-nguyen-69a944236/)** |
-| <p style="text-align: center;">CEO</p> | <p style="text-align: center;">CTO</p> | <p style="text-align: center;">COO</p> |
-
-
 ![Alt text](https://forthebadge.com/images/badges/made-with-java.png)
 ![Alt text](https://forthebadge.com/images/badges/built-for-android.png)
 ![Alt text](https://forthebadge.com/images/badges/built-with-love.png)
