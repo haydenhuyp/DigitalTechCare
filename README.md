@@ -15,9 +15,10 @@ Our project aims to bridge the digital divide for seniors and individuals with d
 ## How to install?
 This app is optimized for use on Android tablet devices (works best for HD resolution).
 A few features require Wi-Fi connection.
-1. Download [this APK](https://drive.google.com/file/d/1PFAu9-1z4rZn_uMqeKmUqedgG4haHmcE/view?usp=sharing).
-2. Install on an Android tablet device (make sure you enable "Install unknown apps" in your settings)
-3. Run the app
+1. Download [this APK](https://drive.google.com/file/d/1aGyUEhNCcLTxE4rr0DqRwK7M4YKGkUIH/view?usp=sharing).
+2. (Optional) Download [this APK](https://drive.google.com/file/d/1oJLR-EcQJ_kFpXKrkHigphN--CTGGfY2/view?usp=sharing) to use the caregiver version
+3. Install on an Android tablet device (make sure you enable "Install unknown apps" in your settings)
+4. Run the app
 
 ## How to run the code in Android Studio?
 Send an email to info@digitaltechcare.tech to obtain API Keys
